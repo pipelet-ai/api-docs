@@ -1,19 +1,7 @@
-# Video Generation API
 
-This document describes the video generation endpoints exposed by `batch/src/routes/fal-routes.ts`.
-
-Use these endpoints to create text-to-video jobs, poll their status, cancel if still queued, and fetch the resulting video.
-
-Note: All routes require an authenticated request (middleware `requireUser`).
-
-## Base URL
+## Video Generation API
 
 - Production: `https://batch.pipelet.net`
-
-## Supported models
-
-- Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-vip` Takes a prompt as input and generates a video.
-- Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-vip` Takes an image and a prompt as input and generates a video.
 
 ## Endpoints (quick reference)
 
@@ -22,71 +10,54 @@ Note: All routes require an authenticated request (middleware `requireUser`).
 - Cancel request: `PUT /queue/:modelId/requests/:requestId/cancel`
 - Fetch result: `GET /queue/:modelId/requests/:requestId`
 
-Excluded from this doc: `POST /queue/:modelId/:subpath`
+## Supported modelIds
 
----
+- Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-premium`, `wan22-fast-t2v-pro`
+- Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-vip`, `wan22-fast-i2v-pro`
 
-## 1) Create a request
+## Request Format
+
+### 1) Create a request
 
 POST `https://batch.pipelet.net/queue/:modelId`
+Headers:
+- `Content-Type: application/json`
+- `Authorization: Bearer {your-bearer-token}`
+Body:
+* For text-to-video models, provide a `prompt` field with text prompts.
+* For image-to-video models, provide a `prompt` and a `data_uri` field with base64 encoded image.
+* Extra parameters are optional, `duration` for video length in seconds, `width` and `height` for video resolution.
 
-Body: JSON inputs for the model. For basic T2V, at minimum provide a `prompt`.
-- For image-to-video, provide a `data_uri` field as the base64 encoded image.
-- (Coming soon) Extra parameters for specifying video size, length, aspect ratio, etc
+Supported Resolution:
+* For text-to-video models, 1280x720, 720x1280, 480x832, 832x480, 512x512, 768x768
+* For image-to-video models, only `height` is used, and we only support 720, 480 as input
+* For both models, maximum `duration` for 720p video is 5 seconds. For 480p video it can be 7 seconds.
 
-Example (model `wan22-fast-t2v`):
+Example (model `wan22-fast-i2v`):
 
 ```bash
-curl 'https://batch.pipelet.net/queue/wan22-fast-t2v' \
+curl 'https://batch.pipelet.net/queue/wan22-fast-i2v' \
   -H 'Content-Type: application/json' \
-  -d '{"prompt": "A cat wearing a superman cape playing with a dog"}'
+  -d '{"prompt": "A cat wearing a superman cape playing with a dog", "data_uri": "(base64 encoded image)", "duration": 5, "height": 720}'
 ```
+NOTE: to create a base64 encoded image, do something like `base64 -i image.jpg`
 
 Example response:
 
 ```json
 {
   "request_id": "12",
-  "response_url": "https://batch.pipelet.net/queue/wan22-fast-t2v/requests/12",
-  "status_url": "https://batch.pipelet.net/queue/wan22-fast-t2v/requests/12/status",
-  "cancel_url": "https://batch.pipelet.net/queue/wan22-fast-t2v/requests/12/cancel"
+  "response_url": "https://batch.pipelet.net/queue/wan22-fast-i2v/requests/12",
+  "status_url": "https://batch.pipelet.net/queue/wan22-fast-i2v/requests/12/status",
+  "cancel_url": "https://batch.pipelet.net/queue/wan22-fast-i2v/requests/12/cancel"
 }
 ```
 
 Notes:
-- `request_id` is your handle for this job.
+- `request_id` is your handle for this job for future requests
 - Use `status_url` to poll for progress.
 - Use `response_url` to fetch the completed result.
 - Use `cancel_url` to cancel if the job has not started yet.
-
-## 1.1) Supported Models and Request Formats
-
-### Text To Video Models
-
-`wan22-fast-t2v-vip`, `wan22-fast-t2v`
-
-These two are the same wan22 fast text-to-video model, but `wan22-fast-t2v-vip` has a higher priority in the queue.
-It usually takes 3 minutes to generate a 5 second video.
-
-```json
-{
-  "prompt": "A cat wearing a superman cape playing with a dog"
-}
-```
-
-### Image To Video Models
-
-`wan22-fast-i2v-vip`, `wan22-fast-i2v`
-
-These two are the same wan22 fast image-to-video model, but `wan22-fast-i2v-vip` has a higher priority in the queue.
-It usually takes 2 minutes to generate a 7 second video.
-
-```json
-{
-  "prompt": "The man does a backflip",
-  "data_uri": "(base64 encoded image)"
-}
-```
 
 ## 2) Poll for status
 
@@ -112,8 +83,9 @@ Possible responses:
   "response_url": "https://batch.pipelet.net/queue/wan22-fast-i2v/requests/12"
 }
 ```
+NOTE: Once a video starts generating, it usually takes 90 seconds to complete for 480p video. For 720p video it takes 180 seconds.
 
-- In queue (not started yet). You will also see the current `queue_position`, starting at index 0:
+- In queue (not started yet). You will also see the current `queue_position`, starting at index 0: It means how many jobs are in front of you in the queue.
 
 ```json
 {
@@ -125,8 +97,9 @@ Possible responses:
 ```
 
 - Other terminal states: `COMPLETED`, `FAILED`, `CANCELLED`.
+NOTE: always check statusMessages for details.
 
-## 2.1) Cancel a queued request
+### 2) Cancel a queued request
 
 PUT `https://batch.pipelet.net/queue/:modelId/requests/:requestId/cancel`
 
@@ -140,7 +113,7 @@ curl -XPUT https://batch.pipelet.net/queue/wan22-fast-i2v/requests/16/cancel
 
 If successful, a 204 No Content response is returned; otherwise a conflict (409) is returned if it has already started.
 
-## 3) Fetch the result
+### 3) Fetch the result
 
 GET `https://batch.pipelet.net/queue/:modelId/requests/:requestId`
 
@@ -155,13 +128,13 @@ Typical response body:
 ```json
 {
   "video": {
-    "data_uri": "4AAQSkZJRgABAxxx(base64_encoded mp4 file content)"
+    "data_uri": "(base64_encoded mp4 file content like 4AAQkZJRgABAxxx)"
   }
 }
 ```
 
-- `video.data_uri` is a base64-encoded string of an MP4 file encoded with H.264.
-- Decode and save it locally to obtain the final `.mp4`.
+-  JSON`video.data_uri` is a base64-encoded string of an MP4 file encoded with H.264.
+- Decode and save it locally to obtain the final `.mp4` file
 
 Example to save locally (macOS/Linux):
 
@@ -169,25 +142,3 @@ Example to save locally (macOS/Linux):
 curl -s https://batch.pipelet.net/queue/wan22-fast-i2v/requests/13 \
   | jq -r '.video.data_uri' | base64 --decode > output.mp4
 ```
-
-## Request/Response Details
-
-- Authentication: All endpoints require "Authentication: Bearer {your-bearer-token}" header.
-- Inputs: Arbitrary JSON accepted and forwarded to the model. If `data_uri` is provided, it will be stored and transformed to an internal URL before enqueueing.
-- Status mapping: Internal job states map to the following external states
-  - `PENDING`/`RETRY` -> `IN_QUEUE`
-  - `RUNNING` -> `IN_PROGRESS`
-  - `COMPLETED` -> `COMPLETED`
-  - `FAILED` -> `FAILED`
-  - `CANCELLED` -> `CANCELLED`
-
-## Error cases
-
-- 400: Invalid `requestId` format.
-- 404: Unknown request.
-- 409: Cannot cancel (already started or finished).
-
-## Notes
-
-- This document intentionally excludes the subpath endpoint `POST /queue/:modelId/:subpath`.
-- Result fetching attempts to inline the stored payload and return the uniform shape `{ "video": { "data_uri": "..." } }`.
