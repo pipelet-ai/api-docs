@@ -13,16 +13,20 @@
 ## Supported modelIds
 
 - Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-premium`, `wan22-fast-t2v-pro`
-- Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-vip`, `wan22-fast-i2v-pro`
+- Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-premium`, `wan22-fast-i2v-pro`
 
 ## Request Format
 
 ### 1) Create a request
 
 POST `https://batch.pipelet.net/queue/:modelId`
+
+
 Headers:
 - `Content-Type: application/json`
 - `Authorization: Bearer {your-bearer-token}`
+
+
 Body:
 * For text-to-video models, provide a `prompt` field with text prompts.
 * For image-to-video models, provide a `prompt` and a `data_uri` field with base64 encoded image.
