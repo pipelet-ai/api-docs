@@ -1,7 +1,6 @@
 ---
-# NOTE: This index.md renders the root README.md on GitHub Pages
 layout: null
-title: Home
+title: Upscale Quickstart
 ---
 
 <link rel="stylesheet" href="assets/site.css" />
@@ -10,11 +9,11 @@ title: Home
   <aside class="sidebar">
     <div class="brand">API Docs</div>
     <nav class="nav">
-      <a class="active" href="./">All APIs</a>
-      <a href="./upscale">Upscale Quickstart</a>
+      <a href="./">All APIs</a>
+      <a class="active" href="./upscale">Upscale Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
-  {% include_relative README.md %}
+  {% include_relative upscale-quickstart.md %}
   </main>
 </div>
