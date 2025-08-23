@@ -81,7 +81,7 @@ title: Home
   .callout { border: 1px solid var(--border); border-left: 4px solid var(--brand); background: var(--panel); padding: 12px 14px; border-radius: 8px; }
 </style>
 
-<main class="doc-container">
+<main markdown="1" class="doc-container">
 {% include_relative README.md %}
 
 {% include_relative upscale-quickstart.md %}
