@@ -67,9 +67,9 @@ Notes:
 
 ### Text To Video Models
 
-`wan22-fast-t2v-vip`, `wan22-fast-t2v`
+`wan22-fast-t2v-pro`, `wan22-fast-t2v`, `wan22-fast-t2v-premium`, `wan22-fast-t2v-fp8`
 
-These two are the same wan22 fast text-to-video model, but `wan22-fast-t2v-vip` has a higher priority in the queue.
+These two are the same wan22 fast text-to-video model, but `wan22-fast-t2v-pro` has a higher priority in the queue.
 It usually takes 3 minutes to generate a 5 second video.
 
 ```json
@@ -80,9 +80,9 @@ It usually takes 3 minutes to generate a 5 second video.
 
 ### Image To Video Models
 
-`wan22-fast-i2v-vip`, `wan22-fast-i2v`
+`wan22-fast-i2v-pro`, `wan22-fast-i2v`, `wan22-fast-i2v-premium`, `wan22-fast-i2v-fp8`
 
-These two are the same wan22 fast image-to-video model, but `wan22-fast-i2v-vip` has a higher priority in the queue.
+These two are the same wan22 fast image-to-video model, but `wan22-fast-i2v-pro` has a higher priority in the queue.
 It usually takes 2 minutes to generate a 7 second video.
 
 ```json
@@ -105,7 +105,7 @@ curl https://batch.pipelet.net/queue/wan22-fast-i2v/requests/12/status
 Possible responses:
 
 - In progress
-
+When it is IN_PROGRESS, you will also see the current `estimated_total_time_seconds`. It is for the whole job time, not just the remaining time.
 ```json
 {
   "status": "IN_PROGRESS",
@@ -118,7 +118,7 @@ Possible responses:
 }
 ```
 
-- In queue (not started yet). You will also see the current `queue_position`, starting at index 0:
+- In queue (not started yet). You will also see the current `queue_position`, starting at index 0. Below example, `queue_position` is 1, meaning there is one job in front of you in the queue.
 
 ```json
 {
