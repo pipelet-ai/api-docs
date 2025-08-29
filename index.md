@@ -15,6 +15,6 @@ title: Home
     </nav>
   </aside>
   <main markdown="1" class="content">
-  {% include_relative README.md %}
+  {% include_relative docs/Video-Generation.md %}
   </main>
 </div>
