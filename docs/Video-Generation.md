@@ -12,8 +12,8 @@ Note: All routes require an authenticated request (middleware `requireUser`).
 
 ## Supported models
 
-- Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-vip` Takes a prompt as input and generates a video.
-- Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-vip` Takes an image and a prompt as input and generates a video.
+- Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-pro`, `wan22-fast-t2v-premium`, `wan22-t2v-fp8` Takes a prompt as input and generates a video.
+- Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-pro`, `wan22-fast-i2v-premium`, `wan22-i2v-fp8` Takes an image and a prompt as input and generates a video.
 
 ## Endpoints (quick reference)
 
@@ -32,14 +32,18 @@ POST `https://batch.pipelet.net/queue/:modelId`
 
 Body: JSON inputs for the model. For basic T2V, at minimum provide a `prompt`.
 - For image-to-video, provide a `data_uri` field as the base64 encoded image.
-- (Coming soon) Extra parameters for specifying video size, length, aspect ratio, etc
+- `width` and `height` for video resolution.
+- `duration` for video length in seconds.
+- `new_resolution` for upscaling an image to a higher resolution.
+- `min_height` for image to video, to ensure the video is at least this height
+- `priority` for priority in the queue, the bigger the number, the higher priority we have
 
 Example (model `wan22-fast-t2v`):
 
 ```bash
 curl 'https://batch.pipelet.net/queue/wan22-fast-t2v' \
   -H 'Content-Type: application/json' \
-  -d '{"prompt": "A cat wearing a superman cape playing with a dog"}'
+  -d '{"prompt": "A cat wearing a superman cape playing with a dog", "width": 1280, "height": 720, "duration": 5, "priority": 100}'
 ```
 
 Example response:
@@ -107,7 +111,8 @@ Possible responses:
   "status": "IN_PROGRESS",
   "statusMessages": {
     "message": "PROCESSING",
-    "detail_message": "Progress: 4/24 Tasks done"
+    "detail_message": "Progress: 4/24 Tasks done",
+    "estimated_total_time_seconds": 120
   },
   "response_url": "https://batch.pipelet.net/queue/wan22-fast-i2v/requests/12"
 }
