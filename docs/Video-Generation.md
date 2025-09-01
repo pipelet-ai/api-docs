@@ -14,6 +14,7 @@ Note: All routes require an authenticated request (middleware `requireUser`).
 
 - Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-pro`, `wan22-fast-t2v-premium`, `wan22-t2v-fp8` Takes a prompt as input and generates a video.
 - Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-pro`, `wan22-fast-i2v-premium`, `wan22-i2v-fp8` Takes an image and a prompt as input and generates a video.
+- Sound-Text-to-Video: `wan-s2v-fast`, `wan-s2v-pro`, `wan-s2v-premium` Takes an image, a prompt and an audio as input and generates a video.
 
 ## Endpoints (quick reference)
 
@@ -74,7 +75,11 @@ It usually takes 3 minutes to generate a 5 second video.
 
 ```json
 {
-  "prompt": "A cat wearing a superman cape playing with a dog"
+  "prompt": "A cat wearing a superman cape playing with a dog",
+  "width": 1280,
+  "height": 720,
+  "duration": 5,
+  "priority": 30
 }
 ```
 
@@ -88,9 +93,30 @@ It usually takes 2 minutes to generate a 7 second video.
 ```json
 {
   "prompt": "The man does a backflip",
-  "data_uri": "(base64 encoded image)"
+  "data_uri": "(base64 encoded image)",
+  "duration": 5,
+  "min_height": 480,
+  "priority": 30
 }
 ```
+
+### Sound and Text To Video Models
+
+`wan22-s2v-pro`, `wan22-s2v-fast`, `wan22-s2v-premium`
+
+These two are the same wan22 fast image-to-video model, but `wan22-s2v-pro` has a higher priority in the queue.
+
+```json
+{
+  "prompt": "The girl sings a sad song with tears and emotion",
+  "data_uri": "(base64 encoded image)",
+  "audio_uri": "(base64 encoded audio)",
+  "duration": 5,
+  "min_height": 480,
+  "priority": 30
+}
+```
+
 
 ## 2) Poll for status
 
