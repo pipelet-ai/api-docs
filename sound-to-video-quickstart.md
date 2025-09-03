@@ -36,13 +36,13 @@ curl -XPOST `https://batch.pipelet.net/queue/wan22-s2v-premium` \
 ### 2) Poll for status, Exactly the same as video generation
 
 ```
-curl https://batch.pipelet.net/queue/wan22-s2v-premium/requests/12/status
+curl https://batch.pipelet.net/queue/wan22-s2v-premium/requests/12/status -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 3) Cancel a queued request, Exactly the same as video generation
 
 ```
-curl -XPUT https://batch.pipelet.net/queue/wan22-s2v-premium/requests/16/cancel
+curl -XPUT https://batch.pipelet.net/queue/wan22-s2v-premium/requests/16/cancel -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 4) Fetch the result, Exactly the same as video generation
