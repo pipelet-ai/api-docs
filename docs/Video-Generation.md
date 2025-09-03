@@ -14,7 +14,7 @@ Note: All routes require an authenticated request (middleware `requireUser`).
 
 - Text-to-Video: `wan22-fast-t2v`, `wan22-fast-t2v-pro`, `wan22-fast-t2v-premium`, `wan22-t2v-fp8` Takes a prompt as input and generates a video.
 - Image-to-Video: `wan22-fast-i2v`, `wan22-fast-i2v-pro`, `wan22-fast-i2v-premium`, `wan22-i2v-fp8` Takes an image and a prompt as input and generates a video.
-- Sound-Text-to-Video: `wan-s2v-fast`, `wan-s2v-pro`, `wan-s2v-premium` Takes an image, a prompt and an audio as input and generates a video.
+- Sound-Text-to-Video: `wan22-s2v-fast`, `wan22-s2v-pro`, `wan22-s2v-premium` Takes an image, a prompt and an audio as input and generates a video.
 
 ## Endpoints (quick reference)
 

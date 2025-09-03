@@ -9,12 +9,12 @@ It is very popular in the case to animate a character to lip-sync to a given aud
 
 ## Endpoints (quick reference)
 
-There are 3 queues supported, mapping to different priority. Queues are `wan-s2v-fast`, `wan-s2v-pro`, `wan-s2v-premium`.
+There are 3 queues supported, mapping to different priority. Queues are `wan22-s2v-fast`, `wan22-s2v-pro`, `wan22-s2v-premium`.
 
-- Create request: `POST /queue/wan-s2v-fast` or `POST /queue/wan-s2v-pro` or `POST /queue/wan-s2v-premium`
-- Check status: `GET /queue/{queue}/requests/:requestId/status` . For example `GET /queue/wan-s2v-fast/requests/12/status`
-- Cancel request: `PUT /queue/{queue}/requests/:requestId/cancel` . For example `PUT /queue/wan-s2v-fast/requests/12/cancel`
-- Fetch result: `GET /queue/{queue}/requests/:requestId` . For example `GET /queue/wan-s2v-fast/requests/12`
+- Create request: `POST /queue/wan22-s2v-fast` or `POST /queue/wan22-s2v-pro` or `POST /queue/wan22-s2v-premium`
+- Check status: `GET /queue/{queue}/requests/:requestId/status` . For example `GET /queue/wan22-s2v-fast/requests/12/status`
+- Cancel request: `PUT /queue/{queue}/requests/:requestId/cancel` . For example `PUT /queue/wan22-s2v-fast/requests/12/cancel`
+- Fetch result: `GET /queue/{queue}/requests/:requestId` . For example `GET /queue/wan22-s2v-fast/requests/12`
 
 ## Request Format
 
@@ -27,7 +27,7 @@ Request body is a JSON object, with the following fields:
 - `priority`: integer, the priority of the job. The bigger the number, the higher priority we have. You can use whatever integer you have.
 
 ```
-curl -XPOST `https://batch.pipelet.net/queue/wan-s2v-premium` \
+curl -XPOST `https://batch.pipelet.net/queue/wan22-s2v-premium` \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer {your-bearer-token}' \
   -d '{"audio_uri": "(base64 encoded audio)", "data_uri": "(base64 encoded image)", "prompt": "The girl sings a sad song with tears and emotion", "duration": 5, "min_height": 480, "priority": 40}'
@@ -36,17 +36,17 @@ curl -XPOST `https://batch.pipelet.net/queue/wan-s2v-premium` \
 ### 2) Poll for status, Exactly the same as video generation
 
 ```
-curl https://batch.pipelet.net/queue/wan-s2v-premium/requests/12/status
+curl https://batch.pipelet.net/queue/wan22-s2v-premium/requests/12/status
 ```
 
 ### 3) Cancel a queued request, Exactly the same as video generation
 
 ```
-curl -XPUT https://batch.pipelet.net/queue/wan-s2v-premium/requests/16/cancel
+curl -XPUT https://batch.pipelet.net/queue/wan22-s2v-premium/requests/16/cancel
 ```
 
 ### 4) Fetch the result, Exactly the same as video generation
 
 ```
-curl -XGET https://batch.pipelet.net/queue/wan-s2v-premium/requests/13
+curl -XGET https://batch.pipelet.net/queue/wan22-s2v-premium/requests/13
 ```
