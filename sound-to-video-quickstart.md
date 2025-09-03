@@ -48,5 +48,5 @@ curl -XPUT https://batch.pipelet.net/queue/wan22-s2v-premium/requests/16/cancel 
 ### 4) Fetch the result, Exactly the same as video generation
 
 ```
-curl -XGET https://batch.pipelet.net/queue/wan22-s2v-premium/requests/13
+curl -XGET https://batch.pipelet.net/queue/wan22-s2v-premium/requests/13 -H "Authorization: Bearer {your-bearer-token}"
 ```
