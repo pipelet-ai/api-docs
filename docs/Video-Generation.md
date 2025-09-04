@@ -116,6 +116,20 @@ These two are the same wan22 fast image-to-video model, but `wan22-s2v-pro` has 
   "priority": 30
 }
 ```
+### Add Sound To Video Models
+
+`hunyuan-foley-pro`, `hunyuan-foley`, `hunyuan-foley-premium`
+
+These are the same hunyuan foley model, but `hunyuan-foley-pro` has a higher priority in the queue.
+
+```json
+{
+  "prompt": "The girl sings a sad song with tears and emotion",
+  "data_uri": "(base64 encoded image or S3 Pre-signed URL)",
+  "background_music": true,
+  "priority": 30
+}
+```
 
 
 ## 2) Poll for status
@@ -191,8 +205,8 @@ Typical response body:
 }
 ```
 
-- `video.data_uri` is a base64-encoded string of an MP4 file encoded with H.264.
-- Decode and save it locally to obtain the final `.mp4`.
+- `video.data_uri` can be two formats: one is just a base64 encoded string of an MP4 file encoded with H.264, the other is a S3 compatible Presigned URL starts with https://
+- Decode and save it locally or download it from the S3 URL to obtain the final `.mp4`.
 
 Example to save locally (macOS/Linux):
 
@@ -200,6 +214,17 @@ Example to save locally (macOS/Linux):
 curl -s https://batch.pipelet.net/queue/wan22-fast-i2v/requests/13 \
   | jq -r '.video.data_uri' | base64 --decode > output.mp4
 ```
+
+Example with https:// pre-signed URL:
+
+```
+{
+  "video": {
+    "data_uri": "https://staging-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/wan22-fast-i2v/115_AnimateDiff_00125.mp4?X-Amz-Expires=1800&X-Amz-Date=20250904T213408Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=e233b3b06e4169616188cfee2b20c414%2F20250904%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=d1d3d9ea4befc7a88f95bcf5ec31c8e44395062117a7dc2d8ef2732584615e89"
+  }
+}
+```
+
 
 ## Request/Response Details
 

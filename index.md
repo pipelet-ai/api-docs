@@ -13,6 +13,7 @@ title: Home
       <a class="active" href="./">All APIs</a>
       <a href="./upscale">Upscale Quickstart</a>
       <a href="./sound-to-video-quickstart">Sound To Video Quickstart</a>
+      <a href="./video-add-sound-quickstart">Video Add Sound Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
