@@ -84,6 +84,9 @@ It usually takes 3 minutes to generate a 5 second video.
 }
 ```
 
+NOTE: the `higher_quality_with_more_steps` and `use_best_resolution` are optional, and are set to false by default.
+`higher_quality_with_more_steps` will take more time to generate the video, but will be higher quality.
+
 ### Image To Video Models
 
 `wan22-fast-i2v-pro`, `wan22-fast-i2v`, `wan22-fast-i2v-premium`, `wan22-fast-i2v-fp8`
@@ -98,9 +101,14 @@ It usually takes 2 minutes to generate a 7 second video.
   "duration": 5,
   "min_height": 480,
   "priority": 30,
-  "higher_quality_with_more_steps": false
+  "higher_quality_with_more_steps": false,
+  "use_best_resolution": false
 }
 ```
+NOTE: `use_best_resolution` will make the video choose the shortest side of the image to match the "height" or "min_height" value.
+For example, if the input image is like a selfie, 9:16, portrait style, and "height" is 480, use_best_resolution will make the video 480x832.
+If use_best_resolution is false, then the video will have 480 as height, resulting a smaller video like 270x480
+
 
 ### Sound and Text To Video Models
 
@@ -116,7 +124,8 @@ These two are the same wan22 fast image-to-video model, but `wan22-s2v-pro` has 
   "duration": 5,
   "min_height": 480,
   "priority": 30,
-  "higher_quality_with_more_steps": false
+  "higher_quality_with_more_steps": false,
+  "use_best_resolution": false
 }
 ```
 ### Add Sound To Video Models
@@ -130,7 +139,9 @@ These are the same hunyuan foley model, but `hunyuan-foley-pro` has a higher pri
   "prompt": "The girl sings a sad song with tears and emotion",
   "data_uri": "(base64 encoded image or S3 Pre-signed URL)",
   "background_music": true,
-  "priority": 30
+  "priority": 30,
+  "higher_quality_with_more_steps": false,
+  "use_best_resolution": false
 }
 ```
 
