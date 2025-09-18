@@ -79,7 +79,8 @@ It usually takes 3 minutes to generate a 5 second video.
   "width": 1280,
   "height": 720,
   "duration": 5,
-  "priority": 30
+  "priority": 30,
+  "higher_quality_with_more_steps": false
 }
 ```
 
@@ -96,7 +97,8 @@ It usually takes 2 minutes to generate a 7 second video.
   "data_uri": "(base64 encoded image)",
   "duration": 5,
   "min_height": 480,
-  "priority": 30
+  "priority": 30,
+  "higher_quality_with_more_steps": false
 }
 ```
 
@@ -113,7 +115,8 @@ These two are the same wan22 fast image-to-video model, but `wan22-s2v-pro` has 
   "audio_uri": "(base64 encoded audio)",
   "duration": 5,
   "min_height": 480,
-  "priority": 30
+  "priority": 30,
+  "higher_quality_with_more_steps": false
 }
 ```
 ### Add Sound To Video Models

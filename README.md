@@ -146,3 +146,6 @@ Example to save locally (macOS/Linux):
 curl -s https://batch.pipelet.net/queue/wan22-fast-i2v/requests/13 \
   | jq -r '.video.data_uri' | base64 --decode > output.mp4
 ```
+#### Extra Note for backwards compatibility
+All the previous pipelines will produce base64-encoded video files in the response body directly.
+If you wish to swtich to the S3-presigned URL, add a HTTP header `x-pipelet-output: binary` to the create request, and the result will be a S3-presigned URL instead.
