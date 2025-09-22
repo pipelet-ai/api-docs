@@ -5,7 +5,7 @@ It is very popular in the case to animate a character to lip-sync to a given aud
 
 ## Base URL
 
-- Production: `https://batch.pipelet.net`
+- Production: `https://api.pipelet.net`
 
 ## Endpoints (quick reference)
 
@@ -23,7 +23,7 @@ Request body is a JSON object, with the following fields:
 - `priority`: integer, the priority of the job. The bigger the number, the higher priority we have. You can use whatever integer you have.
 
 ```
-curl -XPOST `https://batch.pipelet.net/fal/queue/vibevoice` \
+curl -XPOST https://api.pipelet.net/fal/queue/vibevoice \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer {your-bearer-token}' \
   -d '{"audio_data_uri": "(base64 encoded audio)", "prompt": "Hey honey, do you have time for dinner tonight?"}'
@@ -43,19 +43,31 @@ They are the same as the video generation API, showing you where to poll for sta
 ### 2) Poll for status, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl https://batch.pipelet.net/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/status -H "Authorization: Bearer {your-bearer-token}"
+curl https://api.pipelet.net/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/status -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 3) Cancel a queued request, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl -XPUT https://batch.pipelet.net/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/cancel -H "Authorization: Bearer {your-bearer-token}"
+curl -XPUT https://api.pipelet.net/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/cancel -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 4) Fetch the result, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl -XGET https://batch.pipelet.net/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z -H "Authorization: Bearer {your-bearer-token}"
+curl -XGET https://api.pipelet.net/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z -H "Authorization: Bearer {your-bearer-token}"
+```
+
+### Result JSON
+
+```
+{
+  "audio":{
+    "data_uri":"ZkxhQwAAACIJAAkA(......)Sq6iKS+4UQSRC1OsmqmAAAAOaK",
+    "content_type":"audio/flac",
+    "file_name":"3E5WhW_ComfyUI_00001_.flac"
+  }
+}
 ```
 
 ## Predefined voices
