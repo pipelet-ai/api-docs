@@ -81,15 +81,15 @@ The response will be a JSON like below:
 ```
 {
   "voices": {
-    "Abigail": "/voices/Abigail.wav",
-    "Adrian": "/voices/Adrian.wav",
-    "Alexander": "/voices/Alexander.wav",
-    "Alice": "/voices/Alice.wav",
-    "Austin": "/voices/Austin.wav",
-    "Axel": "/voices/Axel.wav",
+    "Abigail": "https://resource.pipelet.net/voices/Abigail.wav",
+    "Adrian": "https://resource.pipelet.net/voices/Adrian.wav",
+    "Alexander": "https://resource.pipelet.net/voices/Alexander.wav",
+    "Alice": "https://resource.pipelet.net/voices/Alice.wav",
+    "Austin": "https://resource.pipelet.net/voices/Austin.wav",
+    "Axel": "https://resource.pipelet.net/voices/Axel.wav",
     "Connor": "/voices/Connor.wav",
     ....
   }
 }
 ```
-For example for item `Abigail` you can download the voice by visiting https://api.pipelet.net/voices/Abigail.wav
+For example for item `Abigail` you can download the voice by visiting https://resource.pipelet.net/voices/Abigail.wav
