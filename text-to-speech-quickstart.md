@@ -1,4 +1,4 @@
-## Text To Speech API Quickstart
+## Text To Speech API Quickstart {#tts-quickstart}
 
 Sound to video is just like video generation, but it takes an audio, a prompt and generate a video.
 It is very popular in the case to animate a character to lip-sync to a given audio.
