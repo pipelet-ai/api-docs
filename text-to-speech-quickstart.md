@@ -18,10 +18,11 @@ It is very popular in the case to animate a character to lip-sync to a given aud
 
 ### 1) Create a request
 Request body is a JSON object, with the following fields:
-- `audio_data_uri`: base64 encoded audio
+- `audio_data_uri`: optional, base64 encoded audio
+- `audio_url`: optional, url to the audio
 - `prompt`: the prompt to generate the video
 - `priority`: integer, the priority of the job. The bigger the number, the higher priority we have. You can use whatever integer you have.
-
+- `predefined_voice`: optional, the name of the predefined voice to use. For example `Abigail`, `Adrian`, `Alexander`, `Alice`, `Austin`, `Axel`, `Connor`, etc. 
 ```
 curl -XPOST https://api.pipelet.net/fal/queue/vibevoice \
   -H 'Content-Type: application/json' \
