@@ -105,10 +105,27 @@ It usually takes 2 minutes to generate a 7 second video.
   "use_best_resolution": false
 }
 ```
+
+#### Image To Video with First-Frame and Last-Frame
+
+```json
+{
+  "prompt": "The man does a backflip",
+  "data_uri": "(base64 encoded image)",
+  "second_image_uri": "(base64 encoded image)",
+  "duration": 5,
+  "min_height": 480,
+  "priority": 30,
+  "higher_quality_with_more_steps": false,
+  "use_best_resolution": false
+}
+```
+
 NOTE: `use_best_resolution` will make the video choose the shortest side of the image to match the "height" or "min_height" value.
 For example, if the input image is like a selfie, 9:16, portrait style, and "height" is 480, use_best_resolution will make the video 480x832.
 If use_best_resolution is false, then the video will have 480 as height, resulting a smaller video like 270x480
 
+NOTE: We support first-frame plus last-frame to generate a video. If the `second_image_uri` is provided, the video will be generated with the `data_uri` as first frame and the `second_image_uri` as the last frame.
 
 ### Sound and Text To Video Models
 
