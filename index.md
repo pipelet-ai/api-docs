@@ -19,5 +19,7 @@ title: Home
   </aside>
   <main markdown="1" class="content">
   {% include_relative docs/Video-Generation.md %}
+  {% include_relative docs/virtual-influencer.md %}
+
   </main>
 </div>

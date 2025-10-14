@@ -20,28 +20,27 @@ The detailed document is in [indextts2-quickstart.md](indextts2-quickstart.md)
 
 ## Generate Video Preview
 
-Generating Video Preview is the 
-Right now we are using wan22-fast-i2v to generate the video preview.
+Generating Video Preview is the same as Sound to Video. Its queue name is `wan22-s2v-extreme-length`
 
-Its endpoint is in https://api.pipelet.ai/fal/queue/wan22-fast-i2v
+Its endpoint is in https://api.pipelet.ai/fal/queue/wan22-s2v-extreme-length
 
-The detailed document is in [wan22-fast-i2v-quickstart.md](wan22-fast-i2v-quickstart.md)
+The detailed document is in [sound-to-video-quickstart.md](sound-to-video-quickstart.md)
 
 ## Upscale Video
 
-Right now we are using wan22-fast-i2v to upscale the video.
+Right now we are using `seedvr2-high-res` queue to upscale the video.
 
-Its endpoint is in https://api.pipelet.ai/fal/queue/wan22-fast-i2v
+Its endpoint is in https://api.pipelet.ai/fal/queue/seedvr2-high-res
 
-The detailed document is in [wan22-fast-i2v-quickstart.md](wan22-fast-i2v-quickstart.md)
+The detailed document is in [upscale-quickstart.md](upscale-quickstart.md)
 
 ## Interpolate Video to High FPS
 
-Right now we are using wan22-fast-i2v to interpolate the video to high fps.
+Right now we are using `gimm-vfi-interpolate` to interpolate the video to high fps.
 
-Its endpoint is in https://api.pipelet.ai/fal/queue/wan22-fast-i2v
+Its endpoint is in https://api.pipelet.ai/fal/queue/gimm-vfi-interpolate
 
-The detailed document is in [wan22-fast-i2v-quickstart.md](wan22-fast-i2v-quickstart.md)
+The detailed document is in [gimm-vfi-interpolate-quickstart.md](gimm-vfi-interpolate-quickstart.md)
 
 ## Supported models
 
