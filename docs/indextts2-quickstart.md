@@ -9,10 +9,10 @@ It is very popular in the case to animate a character to lip-sync to a given aud
 
 ## Endpoints (quick reference)
 
-- Create request: `POST /fal/queue/vibevoice`
-- Check status: `GET /fal/queue/vibevoice/requests/:requestId/status` . For example `GET /fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/status`
-- Cancel request: `PUT /fal/queue/vibevoice/requests/:requestId/cancel` . For example `PUT /fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/cancel`
-- Fetch result: `GET /fal/queue/vibevoice/requests/:requestId` . For example `GET /fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z`
+- Create request: `POST /fal/queue/indextts2`
+- Check status: `GET /fal/queue/indextts2/requests/:requestId/status` . For example `GET /fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/status`
+- Cancel request: `PUT /fal/queue/indextts2/requests/:requestId/cancel` . For example `PUT /fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/cancel`
+- Fetch result: `GET /fal/queue/indextts2/requests/:requestId` . For example `GET /fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z`
 
 ## Request Format
 
@@ -23,8 +23,10 @@ Request body is a JSON object, with the following fields:
 - `prompt`: the prompt to generate the video
 - `priority`: integer, the priority of the job. The bigger the number, the higher priority we have. You can use whatever integer you have.
 - `predefined_voice`: optional, the name of the predefined voice to use. For example `Abigail`, `Adrian`, `Alexander`, `Alice`, `Austin`, `Axel`, `Connor`, etc. 
+- `emotion_text`: optional, the text to describe the emotion for the voice. For example `happy`, `sad`, `angry`, etc. We can input any text form to describe the emotion.
+- `emotion_vector`: optional, the vector to describe the emotion for the voice. The vector is defined as a dictionary: `{'anger': 0.1, 'happy': 0.2, 'sad': 0.3}`. The choices are Happy, Angry, Sad, Fear, Hate, Love, Surprise, Neutral
 ```
-curl -XPOST https://api.pipelet.ai/fal/queue/vibevoice \
+curl -XPOST https://api.pipelet.ai/fal/queue/indextts2 \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer {your-bearer-token}' \
   -d '{"audio_data_uri": "(base64 encoded audio)", "prompt": "Hey honey, do you have time for dinner tonight?"}'
@@ -34,9 +36,9 @@ The response will be a JSON object, with the following fields:
 ```
 {
   "request_id": "mw2yeeka39oxvtouc8j8z",
-  "response_url": "https://api.pipelet.ai/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z",
-  "status_url": "https://api.pipelet.ai/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/status",
-  "cancel_url": "https://api.pipelet.ai/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/cancel"
+  "response_url": "https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z",
+  "status_url": "https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/status",
+  "cancel_url": "https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/cancel"
 }
 ```
 They are the same as the video generation API, showing you where to poll for status, cancel the request, or fetch the result.
@@ -44,19 +46,19 @@ They are the same as the video generation API, showing you where to poll for sta
 ### 2) Poll for status, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl https://api.pipelet.ai/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/status -H "Authorization: Bearer {your-bearer-token}"
+curl https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/status -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 3) Cancel a queued request, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl -XPUT https://api.pipelet.ai/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z/cancel -H "Authorization: Bearer {your-bearer-token}"
+curl -XPUT https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/cancel -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 4) Fetch the result, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl -XGET https://api.pipelet.ai/fal/queue/vibevoice/requests/mw2yeeka39oxvtouc8j8z -H "Authorization: Bearer {your-bearer-token}"
+curl -XGET https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### Result JSON
