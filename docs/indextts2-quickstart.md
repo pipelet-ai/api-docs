@@ -9,10 +9,10 @@ It is very popular in the case to animate a character to lip-sync to a given aud
 
 ## Endpoints (quick reference)
 
-- Create request: `POST /fal/queue/indextts2`
-- Check status: `GET /fal/queue/indextts2/requests/:requestId/status` . For example `GET /fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/status`
-- Cancel request: `PUT /fal/queue/indextts2/requests/:requestId/cancel` . For example `PUT /fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/cancel`
-- Fetch result: `GET /fal/queue/indextts2/requests/:requestId` . For example `GET /fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z`
+- Create request: `POST /fal/queue/indextts2-extreme-length`
+- Check status: `GET /fal/queue/indextts2-extreme-length/requests/:requestId/status` . For example `GET /fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z/status`
+- Cancel request: `PUT /fal/queue/indextts2-extreme-length/requests/:requestId/cancel` . For example `PUT /fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z/cancel`
+- Fetch result: `GET /fal/queue/indextts2-extreme-length/requests/:requestId` . For example `GET /fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z`
 
 ## Request Format
 
