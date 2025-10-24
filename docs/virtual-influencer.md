@@ -1,5 +1,4 @@
 ---
-layout: null
 title: Virtual Influencer Quickstart
 permalink: /docs/virtual-influencer/
 ---
