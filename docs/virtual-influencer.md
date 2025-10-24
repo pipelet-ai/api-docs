@@ -20,7 +20,7 @@ Each step can also allow uploading the data directly, bypassing the previous ste
 
 Right now we are using IndexTTS2 to generate the speech.
 
-Its endpoint is in https://api.pipelet.ai/fal/queue/indextts2
+Its endpoint is in https://api.pipelet.ai/fal/queue/indextts2-extreme-length
 
 The detailed document is in [indextts2-quickstart.md](indextts2-quickstart.md)
 

@@ -18,7 +18,7 @@ Gimm VFI Interpolate is just like video generation, but it takes an video and in
 ### 1) Create a request
 
 ```
-curl -XPOST `https://api.pipelet.ai/queue/gimm-vfi-interpolate` \
+curl -XPOST `https://api.pipelet.ai/fal/queue/gimm-vfi-interpolate` \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer {your-bearer-token}' \
   -d '{"data_uri": "(base64 encoded video)", "fps": 48}'
@@ -35,18 +35,18 @@ Or for higher resolution
 ### 2) Poll for status, like video generation
 
 ```
-curl https://api.pipelet.ai/queue/gimm-vfi-interpolate/requests/12/status
+curl https://api.pipelet.ai/fal/queue/gimm-vfi-interpolate/requests/12/status
 ```
 
 ### 3) Cancel a queued request
 
 ```
-curl -XPUT https://api.pipelet.ai/queue/gimm-vfi-interpolate/requests/16/cancel
+curl -XPUT https://api.pipelet.ai/fal/queue/gimm-vfi-interpolate/requests/16/cancel
 ```
 
 ### 4) Fetch the result
 
 ```
-curl -XGET https://api.pipelet.ai/queue/gimm-vfi-interpolate/requests/13
+curl -XGET https://api.pipelet.ai/fal/queue/gimm-vfi-interpolate/requests/13
 ```
 

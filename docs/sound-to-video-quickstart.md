@@ -11,10 +11,10 @@ It is very popular in the case to animate a character to lip-sync to a given aud
 
 There are 3 queues supported, mapping to different priority. Queue name is `wan22-s2v-extreme-length`
 
-- Create request: `POST /queue/wan22-s2v-extreme-length`
-- Check status: `GET /queue/wan22-s2v-extreme-length/requests/:requestId/status`
-- Cancel request: `PUT /queue/wan22-s2v-extreme-length/requests/:requestId/cancel`
-- Fetch result: `GET /queue/wan22-s2v-extreme-length/requests/:requestId`
+- Create request: `POST /fal/queue/wan22-s2v-extreme-length`
+- Check status: `GET /fal/queue/wan22-s2v-extreme-length/requests/:requestId/status`
+- Cancel request: `PUT /fal/queue/wan22-s2v-extreme-length/requests/:requestId/cancel`
+- Fetch result: `GET /fal/queue/wan22-s2v-extreme-length/requests/:requestId`
 
 ## Request Format
 
@@ -30,7 +30,7 @@ Request body is a JSON object, with the following fields:
 - `priority`: integer, the priority of the job. The bigger the number, the higher priority we have. You can use whatever integer you have.
 
 ```
-curl -XPOST `https://api.pipelet.ai/queue/wan22-s2v-extreme-length` \
+curl -XPOST `https://api.pipelet.ai/fal/queue/wan22-s2v-extreme-length` \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer {your-bearer-token}' \
   -d '{"audio_uri": "(base64 encoded audio)", "data_uri": "(base64 encoded image)", "prompt": "The girl sings a sad song with tears and emotion", "duration": 5, "min_height": 480, "priority": 40}'
@@ -39,17 +39,17 @@ curl -XPOST `https://api.pipelet.ai/queue/wan22-s2v-extreme-length` \
 ### 2) Poll for status, Exactly the same as video generation
 
 ```
-curl https://api.pipelet.ai/queue/wan22-s2v-premium/requests/12/status -H "Authorization: Bearer {your-bearer-token}"
+curl https://api.pipelet.ai/fal/queue/wan22-s2v-extreme-length/requests/12/status -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 3) Cancel a queued request, Exactly the same as video generation
 
 ```
-curl -XPUT https://api.pipelet.ai/queue/wan22-s2v-premium/requests/16/cancel -H "Authorization: Bearer {your-bearer-token}"
+curl -XPUT https://api.pipelet.ai/fal/queue/wan22-s2v-extreme-length/requests/16/cancel -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 4) Fetch the result, Exactly the same as video generation
 
 ```
-curl -XGET https://api.pipelet.ai/queue/wan22-s2v-premium/requests/13 -H "Authorization: Bearer {your-bearer-token}"
+curl -XGET https://api.pipelet.ai/fal/queue/wan22-s2v-extreme-length/requests/13 -H "Authorization: Bearer {your-bearer-token}"
 ```

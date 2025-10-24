@@ -26,7 +26,7 @@ Request body is a JSON object, with the following fields:
 - `emotion_text`: optional, the text to describe the emotion for the voice. For example `happy`, `sad`, `angry`, etc. We can input any text form to describe the emotion.
 - `emotion_vector`: optional, the vector to describe the emotion for the voice. The vector is defined as a dictionary: `{'anger': 0.1, 'happy': 0.2, 'sad': 0.3}`. The choices are Happy, Angry, Sad, Fear, Hate, Love, Surprise, Neutral
 ```
-curl -XPOST https://api.pipelet.ai/fal/queue/indextts2 \
+curl -XPOST https://api.pipelet.ai/fal/queue/indextts2-extreme-length \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer {your-bearer-token}' \
   -d '{"audio_data_uri": "(base64 encoded audio)", "prompt": "Hey honey, do you have time for dinner tonight?"}'
@@ -36,9 +36,9 @@ The response will be a JSON object, with the following fields:
 ```
 {
   "request_id": "mw2yeeka39oxvtouc8j8z",
-  "response_url": "https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z",
-  "status_url": "https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/status",
-  "cancel_url": "https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/cancel"
+  "response_url": "https://api.pipelet.ai/fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z",
+  "status_url": "https://api.pipelet.ai/fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z/status",
+  "cancel_url": "https://api.pipelet.ai/fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z/cancel"
 }
 ```
 They are the same as the video generation API, showing you where to poll for status, cancel the request, or fetch the result.
@@ -46,19 +46,19 @@ They are the same as the video generation API, showing you where to poll for sta
 ### 2) Poll for status, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/status -H "Authorization: Bearer {your-bearer-token}"
+curl https://api.pipelet.ai/fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z/status -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 3) Cancel a queued request, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl -XPUT https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z/cancel -H "Authorization: Bearer {your-bearer-token}"
+curl -XPUT https://api.pipelet.ai/fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z/cancel -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### 4) Fetch the result, nearly same as video generation, with the path having `fal` in front of it
 
 ```
-curl -XGET https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc8j8z -H "Authorization: Bearer {your-bearer-token}"
+curl -XGET https://api.pipelet.ai/fal/queue/indextts2-extreme-length/requests/mw2yeeka39oxvtouc8j8z -H "Authorization: Bearer {your-bearer-token}"
 ```
 
 ### Result JSON
@@ -76,8 +76,6 @@ curl -XGET https://api.pipelet.ai/fal/queue/indextts2/requests/mw2yeeka39oxvtouc
 ## Predefined voices
 
 The users should upload their own voice to clone from. We provide a list of predefined voices for the convenience, but their quality is not as good as the user-uploaded voices.
-
-Disclaimer: the voices are a replication of the OSS https://github.com/devnen/Chatterbox-TTS-Server/tree/main/voices
 
 You can get the list of voices by visiting https://api.pipelet.ai/api/chatterbox/voices
 The response will be a JSON like below:
