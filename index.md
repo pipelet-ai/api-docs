@@ -16,6 +16,7 @@ title: Home
       <a href="./video-add-sound-quickstart">Video Add Sound Quickstart</a>
       <a href="./text-to-speech-quickstart">Text To Speech Quickstart</a>
       <a href="./docs/virtual-influencer">Virtual Influencer Quickstart</a>
+      <a href="./docs/image-edit-quickstart">Image Edit Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
