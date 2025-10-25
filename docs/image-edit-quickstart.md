@@ -86,11 +86,10 @@ curl "https://api.pipelet.ai/fal/queue/qwen-image-edit/requests/rn5r12q9pdu6yvb3
 Example response for result:
 ```json
 {
-  "video": {
+  "image": {
     "data_uri": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00008_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9ca0f6abba71e6073fe4c8a9b21997d5%2F20251025%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=1031cdf308033f8cd7f9600379d16b6ac969bdb412986bc310c138ef33e1f88f",
     "file_name": "2DPBix_qwen_image__00008_.png"
   }
 }
 ```
-**Note** yes we use "video" as key because we are using the same response format as video generation.
 
