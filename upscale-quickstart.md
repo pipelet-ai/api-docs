@@ -27,7 +27,8 @@ curl -XPOST `https://batch.pipelet.net/queue/seedvr2-upscale` \
 Or for higher resolution **This may lead to OOM and failure**
 ```json
 {
-  "data_uri": "(base64 encoded image)",
+  "data_uri": "(base64 encoded image or video)",
+  "data_url": "(S3 Pre-signed URL for video)", // Only one of data_uri and data_url can be provided
   "new_resolution": 1080
 }
 ```

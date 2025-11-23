@@ -17,6 +17,7 @@ title: Home
       <a href="./text-to-speech-quickstart">Text To Speech Quickstart</a>
       <a href="./docs/virtual-influencer">Virtual Influencer Quickstart</a>
       <a href="./docs/image-edit-quickstart">Image Edit Quickstart</a>
+      <a href="./docs/text-to-image-quickstart">Text To Image Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
