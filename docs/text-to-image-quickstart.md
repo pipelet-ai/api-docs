@@ -13,16 +13,16 @@ Note: All routes require an authenticated request (middleware `requireUser`).
 
 ## Endpoints (quick reference)
 
-- Create request: `POST /fal/queue/qwen-text-to-image`
-- Check status: `GET /fal/queue/qwen-text-to-image/requests/:requestId/status`
-- Cancel request: `PUT /fal/queue/qwen-text-to-image/requests/:requestId/cancel`
-- Fetch result: `GET /fal/queue/qwen-text-to-image/requests/:requestId`
+- Create request: `POST /fal/queue/z-image-text-to-image`
+- Check status: `GET /fal/queue/z-image-text-to-image/requests/:requestId/status`
+- Cancel request: `PUT /fal/queue/z-image-text-to-image/requests/:requestId/cancel`
+- Fetch result: `GET /fal/queue/z-image-text-to-image/requests/:requestId`
 
 ---
 
 ## 1) Create a request
 
-POST `https://api.pipelet.ai/fal/queue/qwen-text-to-image`
+POST `https://api.pipelet.ai/fal/queue/z-image-text-to-image`
 
 Body: JSON inputs for the model.
 - `width` and `height` for image resolution.
@@ -32,7 +32,7 @@ Body: JSON inputs for the model.
 
 Example:
 ```bash
-curl -XPOST https://api.pipelet.ai/fal/queue/qwen-text-to-image -H "Authorization: Bearer <your-api-key>" -d '{
+curl -XPOST https://api.pipelet.ai/fal/queue/z-image-text-to-image -H "Authorization: Bearer <your-api-key>" -d '{
     "width": "3200",
     "height": "2000",
     "batch_size": 4,
@@ -44,9 +44,9 @@ It will return something like below:
 ```json
 {
   "request_id": "rn5r12q9pdu6yvb3nxty",
-  "response_url": "https://api.pipelet.ai/fal/queue/qwen-image-edit/requests/rn5r12q9pdu6yvb3nxty",
-  "status_url": "https://api.pipelet.ai/fal/queue/qwen-image-edit/requests/rn5r12q9pdu6yvb3nxty/status",
-  "cancel_url": "https://api.pipelet.ai/fal/queue/qwen-image-edit/requests/rn5r12q9pdu6yvb3nxty/cancel"
+  "response_url": "https://api.pipelet.ai/fal/queue/z-image-image-edit/requests/rn5r12q9pdu6yvb3nxty",
+  "status_url": "https://api.pipelet.ai/fal/queue/z-image-image-edit/requests/rn5r12q9pdu6yvb3nxty/status",
+  "cancel_url": "https://api.pipelet.ai/fal/queue/z-image-image-edit/requests/rn5r12q9pdu6yvb3nxty/cancel"
 }
 ```
 Notes:
@@ -58,7 +58,7 @@ Notes:
 
 We will query the status of the job using the `status_url`.
 ```bash
-curl "https://api.pipelet.ai/fal/queue/qwen-text-to-image/requests/rn5r12q9pdu6yvb3nxty/status" -H "Authorization: Bearer $API_GATEWAY_USER_TOKEN"
+curl "https://api.pipelet.ai/fal/queue/z-image-text-to-image/requests/rn5r12q9pdu6yvb3nxty/status" -H "Authorization: Bearer $API_GATEWAY_USER_TOKEN"
 ```
 Example response for status:
 
@@ -70,25 +70,25 @@ Example response for status:
     "message": "Progress: 10/12 Tasks done",
     "estimatedTotalTimeSeconds": 120
   },
-  "response_url": "https://api.pipelet.ai/fal/queue/qwen-text-to-image/requests/rn5r12q9pdu6yvb3nxty"
+  "response_url": "https://api.pipelet.ai/fal/queue/z-image-text-to-image/requests/rn5r12q9pdu6yvb3nxty"
 }
 ```
 When the status changes to "COMPLETED", we can fetch the result using the `response_url`.
 ```bash
-curl "https://api.pipelet.ai/fal/queue/qwen-text-to-image/requests/rn5r12q9pdu6yvb3nxty" -H "Authorization: Bearer $API_GATEWAY_USER_TOKEN"
+curl "https://api.pipelet.ai/fal/queue/z-image-text-to-image/requests/rn5r12q9pdu6yvb3nxty" -H "Authorization: Bearer $API_GATEWAY_USER_TOKEN"
 ```
 Example response for result:
 ```json
 {
   "image": {
-    "data_uri": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00008_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9ca0f6abba71e6073fe4c8a9b21997d5%2F20251025%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=1031cdf308033f8cd7f9600379d16b6ac969bdb412986bc310c138ef33e1f88f",
-    "file_name": "2DPBix_qwen_image__00008_.png"
+    "data_uri": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/z_image_image_edit_api/2DPBix_z_image_image__00008_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9ca0f6abba71e6073fe4c8a9b21997d5%2F20251025%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=1031cdf308033f8cd7f9600379d16b6ac969bdb412986bc310c138ef33e1f88f",
+    "file_name": "2DPBix_z_image_image__00008_.png"
   },
   "results": [
-    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00008_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
-    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00009_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
-    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00010_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
-    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00011_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256...."
+    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/z_image_image_edit_api/2DPBix_z_image_image__00008_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
+    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/z_image_image_edit_api/2DPBix_z_image_image__00009_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
+    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/z_image_image_edit_api/2DPBix_z_image_image__00010_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
+    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/z_image_image_edit_api/2DPBix_qwen_image__00011_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256...."
   ]
 }
 ```
