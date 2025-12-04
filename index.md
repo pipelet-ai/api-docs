@@ -19,6 +19,7 @@ title: Home
       <a href="./docs/image-edit-quickstart">Image Edit Quickstart</a>
       <a href="./docs/text-to-image-quickstart">Text To Image Quickstart</a>
       <a href="./docs/image-edit-multi-angle-quickstart">Image Edit Multi Angle Quickstart</a>
+      <a href="./docs/singing-photo-quickstart">Singing Photo Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
