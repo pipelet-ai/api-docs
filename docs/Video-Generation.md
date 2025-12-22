@@ -161,7 +161,7 @@ These are the same hunyuan foley model, but `hunyuan-foley-pro` has a higher pri
   "use_best_resolution": false
 }
 ```
-## 1.2) Controlling the output format of the video
+## 1.2) Controlling the output format of the video {#output-format}
 
 When you create a request, you can control the output format of the video by adding an extra header "x-pipelet-output: binary" to the request.
 
@@ -173,7 +173,7 @@ curl https://batch.pipelet.net/queue/wan22-fast-i2v/requests/375867 -H "Authoriz
 {"video":{"data_uri":"https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4?X-Amz-Expires=3600&X-Amz-Date=20251222T045058Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251222%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0c0a67d48ecb346851bd8deb8f1833af14fe4cb6023d93392e4feab3b18ed813","data_url":"https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4?X-Amz-Expires=3600&X-Amz-Date=20251222T045058Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251222%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0c0a67d48ecb346851bd8deb8f1833af14fe4cb6023d93392e4feab3b18ed813"}}
 ```
 
-## 1.3) Downloading the video file directly instead of from the response field.
+## 1.3) Downloading the video file directly instead of from the response field. {#download-direct}
 
 When we poll for the status, we can see the `data_uri` field with the s3://(bucket_name)/path/to/file format, like below:
 ```
