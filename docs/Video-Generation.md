@@ -161,7 +161,33 @@ These are the same hunyuan foley model, but `hunyuan-foley-pro` has a higher pri
   "use_best_resolution": false
 }
 ```
+## 1.2) Controlling the output format of the video
 
+When you create a request, you can control the output format of the video by adding an extra header "x-pipelet-output: binary" to the request.
+
+This will force the output to be a binary file, instead of a base64 encoded string.
+
+When this is set, the response field will be a pres-signed download URL for the binary mp4 file, like below:
+```
+curl https://batch.pipelet.net/queue/wan22-fast-i2v/requests/375867 -H "Authorization: Bearer ${BATCH_USER_TOKEN}"
+{"video":{"data_uri":"https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4?X-Amz-Expires=3600&X-Amz-Date=20251222T045058Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251222%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0c0a67d48ecb346851bd8deb8f1833af14fe4cb6023d93392e4feab3b18ed813","data_url":"https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4?X-Amz-Expires=3600&X-Amz-Date=20251222T045058Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251222%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=0c0a67d48ecb346851bd8deb8f1833af14fe4cb6023d93392e4feab3b18ed813"}}
+```
+
+## 1.3) Downloading the video file directly instead of from the response field.
+
+When we poll for the status, we can see the `data_uri` field with the s3://(bucket_name)/path/to/file format, like below:
+```
+{"status":"COMPLETED","queue_position":0,"statusMessages":{"message":"Job completed successfully","result_uri":"s3://prod-batch-files/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4","results":["s3://prod-batch-files/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4"]},"etaSeconds":0,"response_url":"https://batch.pipelet.net/queue/wan22-fast-i2v/requests/375867"}
+```
+We can keep the s3://(bucket_name)/path/to/file format, and download the file directly from the s3 bucket, via the below endpoint:
+```
+curl -H "Authorization: Bearer $API_GATEWAY_USER_TOKEN" https://api.pipelet.ai/fal/download/(bucket_name)/path/to/file
+```
+For example:
+```
+curl -H "Authorization: Bearer $API_GATEWAY_USER_TOKEN" https://api.pipelet.ai/fal/download/prod-batch-files/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4
+{"url":"https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4?X-Amz-Expires=7200&X-Amz-Date=20251222T044352Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251222%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=3dfe21762327f1fb087b14f508bccfcc51795cbd807c2ec661ec799ced38eccc","key":"outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4","r2_uri":"r2://prod-batch-files/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4"}
+```
 
 ## 2) Poll for status
 
