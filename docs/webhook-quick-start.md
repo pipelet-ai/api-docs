@@ -51,10 +51,12 @@ The eventType would be one of the following:
 
 ### Job Result
 
-The job result will be passed in when the job is completed. It would be exactly like you have visited the `/result` endpoint to fetch results
+The job result will be passed in when the job is completed. It would be exactly like you have visited the `/result` endpoint to fetch results.
+Please note that the jobId will be a string.
 ```
 {
   "eventType": "completed",
+  "jobId": "426792",
   "video": {
     "data_uri": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/437852_0_WanVideo2_2_I2V_00150.mp4?X-Amz-Expires=7200&X-Amz-Date=20251227T203935Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251227%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=94e8e3d507137daa9e1dc4fac8319e7c58d3a5db635faac00f35dd0dba7ebb71",
     "data_url": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/437852_0_WanVideo2_2_I2V_00150.mp4?X-Amz-Expires=7200&X-Amz-Date=20251227T203935Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251227%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=94e8e3d507137daa9e1dc4fac8319e7c58d3a5db635faac00f35dd0dba7ebb71"
