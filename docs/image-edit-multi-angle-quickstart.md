@@ -27,12 +27,19 @@ POST `https://api.pipelet.ai/fal/queue/qwen-image-edit-multi-angle`
 Body: JSON inputs for the model.
 - `image_url` (required, string) for image URL.
 - `priority` (optional, integer, default is 0) for priority in the queue, the bigger the number, the higher priority we have.
+- `azimuth` (optional, array of strings, default is ["all"]) for azimuth of the camera, can be "front view", "front-right quarter view", "front-left quarter view", "back view", "back-right quarter view", "back-left quarter view", "left side view", "right side view"
+- `elevation` (optional, array of strings, default is ["all"]) for elevation of the camera, can be "low-angle shot", "eye-level shot", "elevated shot", "high-angle shot"
+- `distance` (optional, array of strings, default is ["all"]) for distance of the camera, can be "close-up", "medium shot", "wide shot"
+The result will be a multiplication of the azimuth, elevation, and distance. For example if we provide azimuth as ["front view", "back view"], elevation as ["eye-level shot", "high-angle shot"], and distance as ["close-up", "medium shot"], the result will be 8 images.
 
 Example:
 ```bash
 curl -XPOST https://api.pipelet.ai/fal/queue/qwen-image-edit-multi-angle -H "Authorization: Bearer <your-api-key>" -d '{
     "image_url": "https://resource.pipelet.net/images/instagram_test.jpeg",
-    "priority": 4
+    "priority": 4,
+    "azimuth": ["all"],
+    "elevation": ["eye-level shot", "high-angle shot"],
+    "distance": ["close-up", "medium shot"]
 }'
 
 ```
@@ -84,7 +91,8 @@ Example response for result:
     "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00008_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
     "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00009_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
     "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00010_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
-    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00011_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256...."
+    "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/qwen_image_edit_api/2DPBix_qwen_image__00011_.png?X-Amz-Expires=7200&X-Amz-Date=20251025T051931Z&X-Amz-Algorithm=AWS4-HMAC-SHA256....",
+    ....
   ]
 }
 ```
