@@ -32,6 +32,8 @@ Body: JSON inputs for the model.
 - `distance` (optional, array of strings, default is ["all"]) for distance of the camera, can be "close-up", "medium shot", "wide shot"
 The result will be a multiplication of the azimuth, elevation, and distance. For example if we provide azimuth as ["front view", "back view"], elevation as ["eye-level shot", "high-angle shot"], and distance as ["close-up", "medium shot"], the result will be 8 images.
 
+If you wish for more detailed explanation, right now we are loading https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA and it explains the model.
+
 Example:
 ```bash
 curl -XPOST https://api.pipelet.ai/fal/queue/qwen-image-edit-multi-angle -H "Authorization: Bearer <your-api-key>" -d '{
