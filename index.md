@@ -22,6 +22,7 @@ title: Home
       <a href="./docs/singing-photo-quickstart">Singing Photo Quickstart</a>
       <a href="./docs/long-video-quickstart">Long Video Quickstart</a>
       <a href="./docs/webhook-quick-start">Webhook Quickstart</a>
+      <a href="./docs/music-video-quickstart">Music Video Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
