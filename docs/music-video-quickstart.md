@@ -27,6 +27,7 @@ Creates a new music video generation job.
 - `prompt` (required): Text prompt describing the video style/content. E.g., "Cute and Calm Capybara"
 - `audio_url` (required): URL to the audio file (MP3, WAV, etc.)
 - `image_url` (required): URL to the input image
+- `min_height` (optional): Minimum height of the output video. Supported values are 480, 720. Default is 480.
 
 ```bash
 curl -XPOST "https://api.pipelet.ai/v1/workflow/music-video/start" \
@@ -35,7 +36,8 @@ curl -XPOST "https://api.pipelet.ai/v1/workflow/music-video/start" \
   -d '{
     "prompt": "Cute and Calm Capybara",
     "audio_url": "https://resource.pipelet.net/demos/music_videos/capybara/capybara_itself.mp3",
-    "image_url": "https://resource.pipelet.net/demos/music_videos/capybara/capybara_itself2.png"
+    "image_url": "https://resource.pipelet.net/demos/music_videos/capybara/capybara_itself2.png",
+    "min_height": 480
 }'
 ```
 
