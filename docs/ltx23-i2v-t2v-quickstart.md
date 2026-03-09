@@ -24,6 +24,12 @@ These models support both text-to-video and image-to-video requests.
 - Cancel request: `PUT /queue/:modelId/requests/:requestId/cancel`
 - Fetch result: `GET /queue/:modelId/requests/:requestId`
 
+## Webhook notification
+
+If you want to receive notifications when the job status changes (e.g. `acquired`, `completed`, `failed`), you can attach a webhook to this request.
+
+See: [Webhook Quickstart](./webhook-quick-start)
+
 ---
 
 ## 1) Create a request
