@@ -4,6 +4,11 @@ This document describes the webhook details in `https://api.pipelet.ai/fal/queue
 
 The webhook is triggered when the job status changes.
 
+This works for video generation queues including:
+
+- `wan22-*` video generation queues
+- `ltx23-i2v-t2v-pro` and `ltx23-i2v-t2v-premium` (see: [LTX23 Image/Text To Video Quickstart](./ltx23-i2v-t2v-quickstart))
+
 ## Creating Webhook
 
 There are two ways to create a webhook:

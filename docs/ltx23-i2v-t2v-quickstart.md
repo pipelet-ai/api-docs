@@ -38,22 +38,54 @@ POST `https://batch.pipelet.net/queue/:modelId`
 
 Body: JSON inputs for the model.
 
-- If `data_uri` or `image_uri` is provided, the request is treated as an image-to-video task.
-- If neither `data_uri` nor `image_uri` is provided, the request is treated as a text-to-video task.
-
-Fields:
-
-- `prompt` (string, required) text prompt describing the video.
-- `data_uri` (string, optional) input image for image-to-video.
-- `image_uri` (string, optional) input image for image-to-video.
-- `min_height` (number, optional) output resolution selector. Only `720` and `1080` are supported.
-- `duration` (number, required) video length in seconds.
+- Mode selection:
+  - If any image input field is provided and non-empty (for example `data_uri`, `image_uri`, `second_image_uri`), the request is treated as an image-to-video task.
+  - If all image input fields are missing or empty (for example `data_uri: ""`), the request is treated as a text-to-video task.
 
 Notes:
 
 - `duration` is in seconds.
-- Only `720` and `1080` are supported as output resolutions (via `min_height`).
-- Mode selection: The model will automatically select the mode (image-to-video or text-to-video) based on the presence of `data_uri` or `image_uri`.
+- Only 720p and 1080p outputs are supported.
+
+## 1.1) Text To Video request format {#text-to-video}
+
+The request body fields are the same as the Text To Video format in [Video Generation API](./Video-Generation#1-1-supported-models-and-request-formats).
+
+```json
+{
+  "prompt": "A cat wearing a superman cape playing with a dog",
+  "width": 1280,
+  "height": 720,
+  "duration": 5,
+  "priority": 30,
+  "higher_quality_with_more_steps": false
+}
+```
+
+Notes:
+
+- Only `width`/`height` values corresponding to 720p or 1080p are supported.
+
+Example (text-to-video, model `ltx23-i2v-t2v-pro`):
+
+```bash
+curl 'https://batch.pipelet.net/queue/ltx23-i2v-t2v-pro' \
+  -H 'Content-Type: application/json' \
+  -H 'x-user-id: xy728e9er' \
+  -H 'Authorization: Bearer <api-key>' \
+  -d '{"prompt":"A cinematic shot of a robot chef plating ramen in a neon-lit kitchen", "width": 1280, "height": 720, "duration": 10}'
+```
+
+## 1.2) Image To Video request format {#image-to-video}
+
+```json
+{
+  "prompt": "The man does a backflip",
+  "data_uri": "(base64 encoded image or URL)",
+  "duration": 5,
+  "min_height": 720
+}
+```
 
 Example (image-to-video, model `ltx23-i2v-t2v-pro`):
 
@@ -63,16 +95,6 @@ curl 'https://batch.pipelet.net/queue/ltx23-i2v-t2v-pro' \
   -H 'x-user-id: xy728e9er' \
   -H 'Authorization: Bearer <api-key>' \
   -d '{"data_uri":"https://resource.pipelet.net/images/step_on.jpg", "prompt":"The girl stands up, and steps on the fish and walks off saying \"Enough of this. Lets go\". The fish flaps and jumps lifelessly, blood spattered on the ground", "min_height": 720, "duration": 10}'
-```
-
-Example (text-to-video, model `ltx23-i2v-t2v-pro`):
-
-```bash
-curl 'https://batch.pipelet.net/queue/ltx23-i2v-t2v-pro' \
-  -H 'Content-Type: application/json' \
-  -H 'x-user-id: xy728e9er' \
-  -H 'Authorization: Bearer <api-key>' \
-  -d '{"prompt":"A cinematic shot of a robot chef plating ramen in a neon-lit kitchen", "min_height": 720, "duration": 10}'
 ```
 
 Example response:
