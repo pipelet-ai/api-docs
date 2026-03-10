@@ -51,6 +51,15 @@ Notes:
 
 The request body fields are the same as the Text To Video format in [Video Generation API](./Video-Generation#1-1-supported-models-and-request-formats).
 
+Fields:
+
+- `prompt` (string, required) text prompt describing the video.
+- `width` (number, required) output video width.
+- `height` (number, required) output video height.
+- `duration` (number, required) video length in seconds.
+- `priority` (number, optional) priority in the queue, the bigger the number, the higher priority we have.
+- `higher_quality_with_more_steps` (boolean, optional) generate with more steps for higher quality.
+
 ```json
 {
   "prompt": "A cat wearing a superman cape playing with a dog",
