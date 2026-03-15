@@ -106,6 +106,40 @@ curl 'https://batch.pipelet.net/queue/ltx23-i2v-t2v-pro' \
   -d '{"data_uri":"https://resource.pipelet.net/images/step_on.jpg", "prompt":"The girl stands up, and steps on the fish and walks off saying \"Enough of this. Lets go\". The fish flaps and jumps lifelessly, blood spattered on the ground", "min_height": 720, "duration": 10}'
 ```
 
+## 1.3) Multi-Frame Guidance (Middle Frames + Last Frame) {#multi-frame-guidance}
+
+You can provide additional frame guidance beyond the initial `data_uri` to control the video generation at specific timestamps. The model supports up to 3 middle frames and 1 last frame.
+
+Optional fields:
+
+- `middle_frame1_url` (string, optional) - base64 encoded image or URL for the first middle frame.
+- `middle_frame2_url` (string, optional) - base64 encoded image or URL for the second middle frame.
+- `middle_frame3_url` (string, optional) - base64 encoded image or URL for the third middle frame.
+- `last_frame_url` (string, optional) - base64 encoded image or URL for the last frame.
+
+**Frame spacing:** The frames are spaced evenly across the video duration. For example, in a 10-second video with `data_uri` (first frame at 0s), `middle_frame1_url`, and `last_frame_url` (at 10s), the `middle_frame1_url` will be placed at the center (5 seconds).
+
+Example (10-second video with first frame, one middle frame, and last frame):
+
+```json
+{
+  "prompt": "A smooth transition from day to night in a city",
+  "data_uri": "(base64 encoded image or URL - first frame at 0s)",
+  "middle_frame1_url": "(base64 encoded image or URL - placed at 5s)",
+  "last_frame_url": "(base64 encoded image or URL - last frame at 10s)",
+  "duration": 10,
+  "min_height": 720
+}
+```
+
+```bash
+curl 'https://batch.pipelet.net/queue/ltx23-i2v-t2v-pro' \
+  -H 'Content-Type: application/json' \
+  -H 'x-user-id: xy728e9er' \
+  -H 'Authorization: Bearer <api-key>' \
+  -d '{"data_uri":"https://resource.pipelet.net/images/day.jpg", "middle_frame1_url":"https://resource.pipelet.net/images/sunset.jpg", "last_frame_url":"https://resource.pipelet.net/images/night.jpg", "prompt":"A smooth transition from day to night in a city", "min_height": 720, "duration": 10}'
+```
+
 Example response:
 
 ```json
