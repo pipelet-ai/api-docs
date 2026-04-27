@@ -25,6 +25,7 @@ title: Home
       <a href="./docs/music-video-quickstart">Music Video Quickstart</a>
       <a href="./docs/video-extension-quickstart">Video Extension Quickstart</a>
       <a href="./docs/ltx23-i2v-t2v-quickstart">LTX23 Image/Text To Video Quickstart</a>
+      <a href="./docs/ltx-video-extension-quickstart">LTX23 Video Extension Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
@@ -34,5 +35,6 @@ title: Home
   {% include_relative docs/webhook-quick-start.md %}
   {% include_relative docs/music-video-quickstart.md %}
   {% include_relative docs/video-extension-quickstart.md %}
+  {% include_relative docs/ltx-video-extension-quickstart.md %}
   </main>
 </div>
