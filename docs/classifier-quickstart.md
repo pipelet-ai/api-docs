@@ -18,11 +18,21 @@ Note: This route requires an authenticated request (middleware `requireUser`).
 
 POST `https://api.pipelet.ai/fal/classifier/tags`
 
-Body: JSON with at least one of the following fields.
-- `image_url` (optional, string or array of strings) — URL(s) of the image(s) to classify.
+Body: JSON with at least one image field or a prompt.
+
+Image fields (any of the following, each optional):
+- `image_url`
+- `image_uri`
+- `data_uri`
+- `second_image_url` / `second_image_uri`
+- `third_image_url` / `third_image_uri`
+
+Each image field accepts an image URL. You can supply multiple fields to classify several images in one call.
+
+Other fields:
 - `prompt` (optional, string) — text prompt to classify.
 
-You must provide either `image_url` or `prompt` (or both).
+You must provide at least one image field or a `prompt` (or both).
 
 Example:
 ```bash
