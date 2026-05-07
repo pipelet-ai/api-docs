@@ -27,6 +27,7 @@ title: Home
       <a href="./docs/ltx23-i2v-t2v-quickstart">LTX23 Image/Text To Video Quickstart</a>
       <a href="./docs/ltx-video-extension-quickstart">LTX23 Video Extension Quickstart</a>
       <a href="./docs/classifier-quickstart">Classifier Quickstart</a>
+      <a href="./docs/video-info-quickstart">Video Info Quickstart</a>
     </nav>
   </aside>
   <main markdown="1" class="content">
