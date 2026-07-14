@@ -4,6 +4,25 @@ This document describes the Instagram generator endpoints in the `https://api.pi
 
 Instagram Generator takes an input image as the "main character" and re-generates that character into a new Instagram-style photo described by your prompt, while preserving the person's facial identity, hairstyle, and other key features.
 
+## Example: before & after
+
+The same person, dropped into a brand-new scene, outfit, and pose — while her face, hairstyle, and identity stay consistent.
+
+<table>
+  <tr>
+    <th align="center">Input — original selfie</th>
+    <th align="center">Output — new scene, same person</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="../assets/instagram_input.jpeg" alt="Input selfie used as the main character" width="360" /></td>
+    <td align="center"><img src="../assets/instagram_output.png" alt="Generated Instagram photo preserving the same identity" width="360" /></td>
+  </tr>
+</table>
+
+**Prompt used:** `She is now seated in a deep purple velvet armchair against a red brick wall inside a richly detailed London townhouse, one leg crossed over the other, calm confident expression, wearing a dark black wash denim jacket and tight jeans.`
+
+Notice the model keeps the same face, hairstyle, and facial features while fully changing the background, wardrobe, and pose — this is the character-consistency problem that Instagram Generator is built to solve.
+
 Use these endpoints to create jobs, poll their status, cancel if still queued, and fetch the resulting image.
 
 Note: All routes require an authenticated request (middleware `requireUser`).

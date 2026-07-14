@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Pipelet · 生成式媒体能力总览</title>
+<style>
+  :root{
+    --ink:#0B0E1A; --ink2:#0d1120; --panel:#12172A; --panel2:#161C33;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.055);
+    --tx:#EAECF5; --mut:#8A90A8; --dim:#5f677f;
+    --violet:#7C5CFF; --magenta:#FF4D9D; --amber:#FFB443; --cyan:#34E4FF; --green:#49E39B;
+    --disp:"PingFang SC","SF Pro Display",-apple-system,"Helvetica Neue",sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#05060c;color:var(--tx);font-family:var(--disp);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+  /* ---- slide frame : 1280 x 720 (16:9) ---- */
+  .slide{
+    position:relative;width:1280px;height:720px;overflow:hidden;
+    background:
+      radial-gradient(1100px 620px at 84% -8%, color-mix(in srgb, var(--hue) 16%, transparent), transparent 60%),
+      radial-gradient(900px 700px at -6% 108%, color-mix(in srgb, var(--hue) 9%, transparent), transparent 55%),
+      linear-gradient(160deg,#0c1020 0%, #0a0d18 55%, #080a12 100%);
+    --hue:var(--violet);
+  }
+  .t-violet{--hue:var(--violet)} .t-magenta{--hue:var(--magenta)}
+  .t-amber{--hue:var(--amber)} .t-cyan{--hue:var(--cyan)}
+
+  /* faint grid texture */
+  .slide::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(var(--line2) 1px,transparent 1px),linear-gradient(90deg,var(--line2) 1px,transparent 1px);
+    background-size:80px 80px;-webkit-mask-image:radial-gradient(120% 100% at 80% 0%,#000 25%,transparent 78%);mask-image:radial-gradient(120% 100% at 80% 0%,#000 25%,transparent 78%);
+  }
+
+  /* ---- signature: spectrum rail ---- */
+  .rail{position:absolute;left:0;top:0;bottom:0;width:96px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:46px 0;z-index:3}
+  .rail .line{position:absolute;left:46px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--hue) 70%,transparent) 12%,var(--hue) 50%,color-mix(in srgb,var(--hue) 70%,transparent) 88%,transparent)}
+  .rail .node{position:relative;width:11px;height:11px;border-radius:50%;background:var(--hue);box-shadow:0 0 0 4px color-mix(in srgb,var(--hue) 22%,transparent),0 0 18px color-mix(in srgb,var(--hue) 80%,transparent);margin-left:-30px}
+  .rail .cap{writing-mode:vertical-rl;text-orientation:mixed;font-family:var(--mono);font-size:11px;letter-spacing:.42em;color:var(--mut);text-transform:uppercase;margin-left:-6px}
+  .rail .num{font-family:var(--mono);font-size:13px;color:var(--hue);letter-spacing:.1em;margin-left:-6px}
+
+  .stage{position:absolute;left:96px;right:0;top:0;bottom:0;padding:64px 72px 58px 56px;z-index:2;display:flex;flex-direction:column}
+
+  .eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
+  .eyebrow b{color:var(--hue);font-weight:600}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--hue);box-shadow:0 0 12px var(--hue)}
+
+  h1.big{font-size:60px;line-height:1.04;font-weight:700;letter-spacing:-.01em;margin:16px 0 0}
+  h2.h{font-size:44px;line-height:1.08;font-weight:700;letter-spacing:-.01em;margin:14px 0 0}
+  .grad{background:linear-gradient(100deg,var(--hue),color-mix(in srgb,var(--hue) 40%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:19px;line-height:1.65;color:var(--mut);max-width:760px;margin-top:16px;font-weight:400}
+  .lead strong{color:var(--tx);font-weight:600}
+
+  .spacer{flex:1}
+
+  /* cards */
+  .grid{display:grid;gap:18px}
+  .card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,var(--hue),transparent 70%);opacity:.9}
+  .card .k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--hue);text-transform:uppercase}
+  .card h3{font-size:21px;font-weight:600;margin:12px 0 8px;letter-spacing:-.01em}
+  .card p{font-size:14.5px;line-height:1.6;color:var(--mut)}
+  .card .en{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:2px}
+
+  .chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:6px 13px;background:rgba(255,255,255,.02)}
+  .chip b{color:var(--tx);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+
+  .kpi .n{font-size:52px;font-weight:700;letter-spacing:-.02em;line-height:1;font-family:var(--disp)}
+  .kpi .n small{font-size:22px;font-weight:600;color:var(--hue);margin-left:2px}
+  .kpi .l{font-size:13.5px;color:var(--mut);margin-top:9px;line-height:1.4}
+
+  .foot{position:absolute;left:96px;right:0;bottom:22px;display:flex;justify-content:space-between;align-items:center;padding:0 72px 0 56px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;z-index:2}
+  .foot .b{color:var(--mut)}
+
+  /* section divider slide */
+  .divider .stage{justify-content:center}
+  .divider .idx{font-family:var(--mono);font-size:15px;color:var(--hue);letter-spacing:.3em}
+  .divider h1.big{font-size:88px;margin-top:18px}
+
+  /* before/after */
+  .ba{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:center;margin-top:8px}
+  .shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000;height:360px;display:flex;align-items:center;justify-content:center}
+  .shot img{height:100%;width:auto;display:block}
+  .shot .tag{position:absolute;left:12px;top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:rgba(6,8,14,.72);border:1px solid var(--line);padding:5px 11px;border-radius:999px;backdrop-filter:blur(6px)}
+  .shot .tag.in{color:var(--mut)} .shot .tag.out{color:var(--magenta)}
+  .arrow{width:96px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--hue)}
+  .arrow .ln{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--mut);text-align:center;text-transform:uppercase}
+  .arrow svg{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--hue) 60%,transparent))}
+
+  /* cover */
+  .cover .stage{justify-content:center;padding-left:56px}
+  .cover .mark{display:flex;align-items:center;gap:14px;font-family:var(--mono);letter-spacing:.34em;font-size:14px;color:var(--mut);text-transform:uppercase}
+  .cover .logo{width:30px;height:30px;border-radius:8px;background:conic-gradient(from 200deg,var(--violet),var(--magenta),var(--amber),var(--cyan),var(--violet));box-shadow:0 0 24px rgba(124,92,255,.5)}
+  .cover h1{font-size:104px;line-height:.98;font-weight:700;letter-spacing:-.025em;margin:26px 0 0}
+  .cover .sub{font-size:26px;color:var(--tx);margin-top:26px;font-weight:500;letter-spacing:.01em}
+  .cover .sub span{color:var(--mut)}
+  .cover .strip{display:flex;gap:0;margin-top:40px;border-top:1px solid var(--line);padding-top:22px;max-width:900px}
+  .cover .strip div{flex:1;border-left:1px solid var(--line);padding:0 20px}
+  .cover .strip div:first-child{border-left:0;padding-left:0}
+  .cover .strip .n{font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.14em}
+  .cover .strip .t{font-size:15px;color:var(--mut);margin-top:7px;line-height:1.4}
+  .ribbon{position:absolute;right:-40px;top:0;bottom:0;width:520px;z-index:1;opacity:.9;
+    background:
+      radial-gradient(600px 600px at 70% 20%, rgba(124,92,255,.20),transparent 60%),
+      radial-gradient(520px 520px at 90% 70%, rgba(255,77,157,.16),transparent 60%),
+      radial-gradient(460px 460px at 60% 95%, rgba(52,228,255,.12),transparent 60%);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
+  .ribbon .bar{position:absolute;height:2px;left:0;right:0;background:linear-gradient(90deg,transparent,var(--hue),transparent)}
+
+  /* list rows */
+  .rows{display:flex;flex-direction:column;gap:0;margin-top:6px;border-top:1px solid var(--line2)}
+  .row{display:grid;grid-template-columns:220px 1fr auto;gap:20px;align-items:center;padding:15px 4px;border-bottom:1px solid var(--line2)}
+  .row .name{font-size:18px;font-weight:600}
+  .row .name .en{display:block;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.06em;margin-top:3px}
+  .row .desc{font-size:14px;color:var(--mut);line-height:1.5}
+  .row .meta{font-family:var(--mono);font-size:11.5px;color:var(--hue);white-space:nowrap;letter-spacing:.06em}
+
+  .quote{font-size:16px;color:var(--tx);line-height:1.6;border-left:2px solid var(--hue);padding-left:18px;max-width:720px}
+  .print-only{display:none}
+
+  @media print{
+    @page{size:13.333in 7.5in;margin:0}
+    html,body{background:#05060c}
+    .slide{page-break-after:always;break-after:page;box-shadow:none}
+    .slide:last-child{page-break-after:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- 01 COVER -->
+<section class="slide cover t-violet">
+  <div class="ribbon">
+    <div class="bar" style="top:22%;--hue:var(--violet)"></div>
+    <div class="bar" style="top:42%;--hue:var(--magenta)"></div>
+    <div class="bar" style="top:62%;--hue:var(--amber)"></div>
+    <div class="bar" style="top:82%;--hue:var(--cyan)"></div>
+  </div>
+  <div class="rail"><div class="line"></div><span class="cap">Pipelet</span><div class="node"></div><span class="num">01 / 15</span></div>
+  <div class="stage">
+    <div class="mark"><span class="logo"></span> PIPELET · 生成式媒体平台</div>
+    <h1>AI 媒体能力<br><span class="grad">全景总览</span></h1>
+    <div class="sub">一个 API，贯通 <span>视频 · 图像 · 语音 · 数字人</span></div>
+    <div class="strip">
+      <div><div class="n">01 UNIQUE</div><div class="t">视频换脸 · 多角度视图<br>同人一致性生成</div></div>
+      <div><div class="n">02 RICH</div><div class="t">动态分段视频 · 富表现力语音<br>多图融合编辑</div></div>
+      <div><div class="n">03 CONTROL</div><div class="t">可调节内容分级<br>统一队列 · Webhook</div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="b">api.pipelet.ai</span><span>能力宣讲 · CAPABILITY OVERVIEW</span></div>
+</section>
+
+<!-- 02 OVERVIEW -->
+<section class="slide t-cyan">
+  <div class="rail"><div class="line"></div><span class="cap">Overview</span><div class="node"></div><span class="num">02 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>THE STACK</b> 一张图看懂能力版图</div>
+    <h2 class="h">20<span class="grad">+</span> 项生成能力，<span class="grad">同一套队列 API</span></h2>
+    <p class="lead">从一张自拍到一支带口型、带配乐的成片——图像、视频、语音、数字人四条产线在同一平台内自由串联，<strong>上一步的产物即下一步的输入</strong>。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="card t-violet"><div class="k">Video</div><h3>视频生成</h3><p>文/图生视频、长视频、视频延展、音频驱动、口型演唱、音乐视频、视频换脸。</p><div class="en">10+ pipelines</div></div>
+      <div class="card t-magenta"><div class="k">Image</div><h3>图像生成</h3><p>多图融合编辑、文生图、多角度视图、超分放大、帧插值高帧率。</p><div class="en">5+ pipelines</div></div>
+      <div class="card t-amber"><div class="k">Audio</div><h3>语音合成</h3><p>声音设计、声音克隆、情绪控制、预置音色、超长文本朗读。</p><div class="en">expressive TTS</div></div>
+      <div class="card t-cyan"><div class="k">Persona</div><h3>数字人</h3><p>文字生成一致角色，含多角度、身份与人设，贯穿全部产线复用。</p><div class="en">consistent identity</div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="b">Pipelet</span><span>能力版图 · CAPABILITY MAP</span></div>
+</section>
+
+<!-- 03 DIVIDER : signature -->
+<section class="slide divider t-magenta">
+  <div class="rail"><div class="line"></div><span class="cap">Signature</span><div class="node"></div><span class="num">03 / 15</span></div>
+  <div class="stage">
+    <div class="idx">PART Ⅰ — 差异化能力</div>
+    <h1 class="big">别人做不到的，<br>是我们的<span class="grad">起点</span>。</h1>
+    <p class="lead">四项少见却高价值的能力：<strong>视频换脸</strong>、<strong>多角度视图</strong>、<strong>同人一致性生成</strong>、<strong>可复用数字人</strong>——它们共同解决了生成式内容最难的「身份一致性」问题。</p>
+  </div>
+  <div class="foot"><span class="b">Pipelet</span><span>差异化能力 · SIGNATURE</span></div>
+</section>
+
+<!-- 04 INSTAGRAM CONSISTENCY (hero visual) -->
+<section class="slide t-magenta">
+  <div class="rail"><div class="line"></div><span class="cap">Consistency</span><div class="node"></div><span class="num">04 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>INSTAGRAM 生成器</b> 攻克「换个场景就换了张脸」</div>
+    <h2 class="h">同一个人，<span class="grad">无数种人生</span></h2>
+    <div class="ba" style="margin-top:22px">
+      <div class="shot"><span class="tag in">输入 · 原始自拍</span><img src="__IG_INPUT__" alt="input"></div>
+      <div class="arrow">
+        <svg width="52" height="28" viewBox="0 0 52 28" fill="none"><path d="M2 14h44M36 5l11 9-11 9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="ln">保留身份<br>重绘场景</div>
+      </div>
+      <div class="shot"><span class="tag out">输出 · 全新场景 · 同一个人</span><img src="__IG_OUTPUT__" alt="output"></div>
+    </div>
+    <p class="lead" style="margin-top:20px">以输入人物为「主角」，重绘进你描述的任意场景、姿态与穿搭，而<strong>面部身份、发型与关键特征自动保持一致</strong>。视觉模型还会自动改写提示词，确保画面里只有你的主角，杜绝「凭空多出一个人」。</p>
+  </div>
+  <div class="foot"><span class="b">instagram-generator</span><span>角色一致性 · IDENTITY-LOCKED</span></div>
+</section>
+
+<!-- 05 VIDEO FACE SWAP -->
+<section class="slide t-violet">
+  <div class="rail"><div class="line"></div><span class="cap">Face Swap</span><div class="node"></div><span class="num">05 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>视频换脸</b> 少见的整段视频级换脸</div>
+    <h2 class="h">一张脸，<span class="grad">接管整段视频</span></h2>
+    <p class="lead">给一张<strong>头像参考图</strong>和一段<strong>身体参考视频</strong>，即可把头部无缝换到视频人物身上，输出全新成片——<strong>无需任何提示词</strong>。逐帧稳定、表情自然，适合虚拟形象带货、影视二创、隐私替身等场景。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="k">Input A</div><h3>头像参考图</h3><p>决定「谁」出现在画面里，任意公开图片 URL。</p></div>
+      <div class="card"><div class="k">Input B</div><h3>身体参考视频</h3><p>决定动作、镜头与场景，原视频人物的头部被替换。</p></div>
+      <div class="card"><div class="k">Output</div><h3>整段换脸成片</h3><p>逐帧一致的 MP4，直接可用，零提示词。</p></div>
+    </div>
+    <div class="chips" style="margin-top:20px"><span class="chip"><b>零提示词</b> no prompt</span><span class="chip"><b>整段视频</b> full clip</span><span class="chip"><b>队列优先级</b> priority</span></div>
+  </div>
+  <div class="foot"><span class="b">video-face-swap</span><span>视频换脸 · VIDEO FACE SWAP</span></div>
+</section>
+
+<!-- 06 MULTI-ANGLE -->
+<section class="slide t-magenta">
+  <div class="rail"><div class="line"></div><span class="cap">Multi-Angle</span><div class="node"></div><span class="num">06 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>多角度视图</b> 一张图，转出整个空间</div>
+    <h2 class="h">一次生成，<span class="grad">环绕八视角</span></h2>
+    <p class="lead">给定一张图，沿<strong>方位、仰角、距离</strong>三个维度自由组合相机机位，一次产出多达 <strong>8 张</strong>同一主体、不同视角的图像——同一个人、同一件商品，前后左右尽收其中。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="k">Azimuth · 方位</div><h3>八向环绕</h3><p>正面、左右四分、正侧、背面——绕主体一圈的机位。</p></div>
+      <div class="card"><div class="k">Elevation · 仰角</div><h3>四段高度</h3><p>低角度、平视、高位、俯拍，掌控镜头视线。</p></div>
+      <div class="card"><div class="k">Distance · 距离</div><h3>景别可选</h3><p>特写、中景、远景，组合相乘即成图集。</p></div>
+    </div>
+    <p class="lead" style="margin-top:18px">方位 × 仰角 × 距离 <strong>自由相乘</strong>——例如 2×2×2 一次得到 8 张，天然适配电商详情页、角色三视图与数据集扩充。</p>
+  </div>
+  <div class="foot"><span class="b">qwen-image-edit-multi-angle</span><span>多角度视图 · MULTI-ANGLE</span></div>
+</section>
+
+<!-- 07 VIRTUAL INFLUENCER -->
+<section class="slide t-cyan">
+  <div class="rail"><div class="line"></div><span class="cap">Virtual Persona</span><div class="node"></div><span class="num">07 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>数字人</b> 一致性的「地基」</div>
+    <h2 class="h">一句描述，<span class="grad">诞生一个可复用的人</span></h2>
+    <p class="lead">给出性别、年龄、风格等偏好，即可生成完整的虚拟角色：<strong>基础肖像 + 四张多角度视图 + 姓名、外貌与 RPG 式人设背景</strong>。角色身份固化存储，可跨图像、视频、语音全线复用。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi card"><div class="k">Portrait</div><div class="n">2</div><div class="l">高清基础肖像<br>1440 × 1920</div></div>
+      <div class="kpi card"><div class="k">Angles</div><div class="n">4<small>向</small></div><div class="l">前左·前右·左侧·右侧<br>身份一致的多角度</div></div>
+      <div class="kpi card"><div class="k">Identity</div><div class="n">AI</div><div class="l">姓名 · 外貌描述<br>人设背景故事</div></div>
+      <div class="kpi card"><div class="k">Reuse</div><div class="n">∞</div><div class="l">稳定 ID 复用于<br>视频 · 口播 · 换脸</div></div>
+    </div>
+    <p class="lead" style="margin-top:18px">配套的<strong>场景提示词生成</strong>还能读取角色形象，自动产出 200–300 字的编辑级文生图提示词——从建角色到出内容，一条龙。</p>
+  </div>
+  <div class="foot"><span class="b">virtual-influencer</span><span>数字人 · CONSISTENT PERSONA</span></div>
+</section>
+
+<!-- 08 DIVIDER : rich common -->
+<section class="slide divider t-violet">
+  <div class="rail"><div class="line"></div><span class="cap">Rich Set</span><div class="node"></div><span class="num">08 / 15</span></div>
+  <div class="stage">
+    <div class="idx">PART Ⅱ — 丰富的常用能力</div>
+    <h1 class="big">常用的能力，<br>也要<span class="grad">足够丰富</span>。</h1>
+    <p class="lead">视频、语音、图像的「基本盘」在这里不是清单勾选，而是<strong>可分段、可延展、可局部重绘、可精细控制情绪</strong>的动态能力矩阵。</p>
+  </div>
+  <div class="foot"><span class="b">Pipelet</span><span>常用能力 · RICH FEATURE SET</span></div>
+</section>
+
+<!-- 09 VIDEO MATRIX -->
+<section class="slide t-violet">
+  <div class="rail"><div class="line"></div><span class="cap">Video</span><div class="node"></div><span class="num">09 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>视频生成矩阵</b> 不止「文生视频」</div>
+    <h2 class="h">从 <span class="grad">5 秒片段</span> 到 <span class="grad">30 秒长镜</span></h2>
+    <div class="rows">
+      <div class="row"><div class="name">文 / 图生视频<span class="en">text / image → video</span></div><div class="desc">文本或首帧起手，支持多档质量与分辨率。</div><div class="meta">720p · 1080p</div></div>
+      <div class="row"><div class="name">长视频<span class="en">long video</span></div><div class="desc">每 5 秒一段独立提示词，分镜式叙事。</div><div class="meta">10 / 15 / 20 / 30s</div></div>
+      <div class="row"><div class="name">多帧引导<span class="en">multi-frame guidance</span></div><div class="desc">首帧 + 至多 3 中间帧 + 末帧，精准控制过渡。</div><div class="meta">up to 5 frames</div></div>
+      <div class="row"><div class="name">视频延展<span class="en">video extension</span></div><div class="desc">在已有视频后平滑续写，自由延长时长。</div><div class="meta">+5 … +30s</div></div>
+      <div class="row"><div class="name">音频驱动 · 口型演唱<span class="en">sound-to-video · singing</span></div><div class="desc">让静态人物对给定音频对口型、唱歌、带情绪。</div><div class="meta">lip-sync</div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="b">wan22 · ltx23</span><span>视频矩阵 · VIDEO MATRIX</span></div>
+</section>
+
+<!-- 10 MUSIC VIDEO / PATCH -->
+<section class="slide t-violet">
+  <div class="rail"><div class="line"></div><span class="cap">Dynamic</span><div class="node"></div><span class="num">10 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>音乐视频 · 分段生成</b> 动态响应的代表作</div>
+    <h2 class="h">不满意？<span class="grad">只重绘那几秒</span></h2>
+    <p class="lead">一张图 + 一段音频，自动切分为 10 秒片段逐段生成再合成整片。真正的亮点在于<strong>局部重绘</strong>：哪几秒没到位，就只重跑那几段，无需推翻整片，并保留完整的重绘历史。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="k">Segment</div><h3>按段生成</h3><p>音频 10 秒切片，逐段成片再拼合，进度可查。</p></div>
+      <div class="card"><div class="k">Patch</div><h3>局部重绘</h3><p>指定时间区间重跑，可链式多次修补。</p></div>
+      <div class="card"><div class="k">History</div><h3>版本追溯</h3><p>完整记录每次修补，合并原片与新片。</p></div>
+    </div>
+    <p class="lead" style="margin-top:18px">这类<strong>结构化、可迭代的动态响应</strong>贯穿平台——返回的不是一锤子买卖，而是可继续操作的结果对象。</p>
+  </div>
+  <div class="foot"><span class="b">music-video</span><span>动态响应 · SEGMENT & PATCH</span></div>
+</section>
+
+<!-- 11 EXPRESSIVE AUDIO -->
+<section class="slide t-amber">
+  <div class="rail"><div class="line"></div><span class="cap">Voice</span><div class="node"></div><span class="num">11 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>富表现力语音</b> 不只是把字读出来</div>
+    <h2 class="h">用<span class="grad">一句话</span>，描述出一种声音</h2>
+    <div class="grid" style="grid-template-columns:repeat(2,1fr);margin-top:6px">
+      <div class="card"><div class="k">Voice Design</div><h3>声音设计 · 无需样本</h3><p>用自然语言描述音色、口音、情绪与角色——「阴森的 RPG 反派嗓音」——即可凭空造声，不必提供参考音频。</p></div>
+      <div class="card"><div class="k">Voice Clone</div><h3>声音克隆</h3><p>上传自有音色高保真复刻，另附大量预置音色可直接取用。</p></div>
+      <div class="card"><div class="k">Emotion</div><h3>情绪精控</h3><p>用情绪文本，或按 8 类情绪的<strong>数值向量</strong>(喜/怒/哀/惧…)精细配比。</p></div>
+      <div class="card"><div class="k">Length</div><h3>超长文本</h3><p>面向长篇朗读优化，稳定输出长音频，适配有声书与口播。</p></div>
+    </div>
+    <div class="chips" style="margin-top:20px"><span class="chip"><b>喜</b> 0.2</span><span class="chip"><b>怒</b> 0.1</span><span class="chip"><b>哀</b> 0.3</span><span class="chip">情绪向量可自由配比 · emotion vector</span></div>
+  </div>
+  <div class="foot"><span class="b">indextts2 · moss-tts</span><span>富表现力语音 · EXPRESSIVE TTS</span></div>
+</section>
+
+<!-- 12 IMAGE -->
+<section class="slide t-magenta">
+  <div class="rail"><div class="line"></div><span class="cap">Image</span><div class="node"></div><span class="num">12 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>图像能力</b> 融合、批量、超清</div>
+    <h2 class="h">多图入场，<span class="grad">融为一幕</span></h2>
+    <p class="lead">图像编辑可同时接入<strong>至多三张参考图</strong>，让「第一张图的人和第二张图的人，在第三张图的桌子上下棋」这类跨图指令一次成型。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="card"><div class="k">Compose</div><h3>多图融合</h3><p>至多 3 图跨图编辑，主体与场景自由组合。</p></div>
+      <div class="card"><div class="k">Text→Image</div><h3>文生图 · 批量</h3><p>一次生成多张，支持大尺寸高分辨率。</p></div>
+      <div class="card"><div class="k">Upscale</div><h3>超分放大</h3><p>SeedVR2 提升至更高分辨率，细节重建。</p></div>
+      <div class="card"><div class="k">Interpolate</div><h3>高帧率插值</h3><p>补帧至 48 / 64 fps，动作丝滑顺畅。</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="b">qwen-image-edit · seedvr2 · gimm-vfi</span><span>图像能力 · IMAGE SUITE</span></div>
+</section>
+
+<!-- 13 ADJUSTABLE MODERATION -->
+<section class="slide t-amber">
+  <div class="rail"><div class="line"></div><span class="cap">Control</span><div class="node"></div><span class="num">13 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>可调节内容分级</b> 合规边界由你掌控</div>
+    <h2 class="h">尺度，<span class="grad">是一个可调的开关</span></h2>
+    <p class="lead">主流的图像编辑、文生图、Instagram 生成等能力均提供<strong>可切换的内容分级开关</strong>——按你的产品定位与地区合规要求，自主决定放开或收紧，而非一刀切。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:1.15fr 1fr">
+      <div class="card"><div class="k">Toggle · 开关式分级</div><h3>热门能力可调尺度</h3><p>在图像编辑、文生图、Instagram 生成等热门端点上，内容分级作为参数随请求下发，灵活适配不同市场。</p></div>
+      <div class="card"><div class="k">Classifier · 内容审校</div><h3>三维标签自动分类</h3><p>输入图片或文本，自动返回三类标签，便于前置路由、过滤与策略执行：</p>
+        <div class="chips" style="margin-top:14px"><span class="chip"><b>成人</b> / 儿童</span><span class="chip"><b>写实</b> / 虚构</span><span class="chip"><b>SFW</b> / NSFW</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="b">classifier · adjustable rating</span><span>内容分级 · YOUR POLICY</span></div>
+</section>
+
+<!-- 14 DEVELOPER EXPERIENCE -->
+<section class="slide t-cyan">
+  <div class="rail"><div class="line"></div><span class="cap">Platform</span><div class="node"></div><span class="num">14 / 15</span></div>
+  <div class="stage">
+    <div class="eyebrow"><span class="dot"></span><b>开发者体验</b> 一套范式，贯穿所有能力</div>
+    <h2 class="h">学会一个接口，<span class="grad">全平台通用</span></h2>
+    <p class="lead">所有能力共用同一套<strong>队列范式</strong>：创建任务 → 轮询进度 → 按需取消 → 拉取结果。换能力，只换名字。</p>
+    <div class="spacer"></div>
+    <div class="grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="card"><div class="k">Unified</div><h3>统一队列 API</h3><p>创建 / 状态 / 取消 / 取结果，一致的四步范式。</p></div>
+      <div class="card"><div class="k">Webhook</div><h3>Webhook 回调</h3><p>任务完成主动通知，免去持续轮询。</p></div>
+      <div class="card"><div class="k">Priority</div><h3>优先级调度</h3><p>数字越大越优先，高峰期灵活插队。</p></div>
+      <div class="card"><div class="k">Flexible IO</div><h3>灵活输入输出</h3><p>Base64 或预签名 URL 任选，直连对象存储。</p></div>
+    </div>
+    <div class="chips" style="margin-top:20px"><span class="chip"><b>可查队列位次</b> queue position</span><span class="chip"><b>可探视频元数据</b> video-info</span><span class="chip"><b>产物即输入</b> chainable</span></div>
+  </div>
+  <div class="foot"><span class="b">one queue, many models</span><span>开发者体验 · UNIFIED API</span></div>
+</section>
+
+<!-- 15 CLOSING -->
+<section class="slide cover t-violet">
+  <div class="ribbon">
+    <div class="bar" style="top:26%;--hue:var(--violet)"></div>
+    <div class="bar" style="top:46%;--hue:var(--magenta)"></div>
+    <div class="bar" style="top:66%;--hue:var(--amber)"></div>
+    <div class="bar" style="top:86%;--hue:var(--cyan)"></div>
+  </div>
+  <div class="rail"><div class="line"></div><span class="cap">Start</span><div class="node"></div><span class="num">15 / 15</span></div>
+  <div class="stage">
+    <div class="mark"><span class="logo"></span> PIPELET</div>
+    <h1 style="font-size:82px">把<span class="grad">整条媒体产线</span><br>装进一个 API。</h1>
+    <div class="sub">视频 · 图像 · 语音 · 数字人 —— <span>一致、丰富、可控。</span></div>
+    <div class="strip">
+      <div><div class="n">UNIQUE</div><div class="t">视频换脸 · 多角度<br>同人一致性</div></div>
+      <div><div class="n">RICH</div><div class="t">分段动态视频<br>富表现力语音</div></div>
+      <div><div class="n">CONTROL</div><div class="t">可调内容分级<br>统一队列 API</div></div>
+      <div><div class="n">ENDPOINT</div><div class="t" style="color:var(--cyan)">api.pipelet.ai<br>batch.pipelet.net</div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="b">api.pipelet.ai</span><span>谢谢观看 · THANK YOU</span></div>
+</section>
+
+</body>
+</html>
