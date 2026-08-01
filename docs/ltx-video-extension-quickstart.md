@@ -133,6 +133,23 @@ Typical response body:
 {
   "video": {
     "data_uri": "4AAQSkZJRgABAxxx(base64_encoded mp4 file content)"
-  }
+  },
+  "preview_fps": 1,
+  "previews": [
+    {
+      "url": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/.../452675_0_preview_000.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 0,
+      "timestamp": 0,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    }
+  ]
 }
 ```
+
+`previews` is a strip of JPEG frames sampled from the finished video, one per second
+by default — useful for a thumbnail or scrub strip without downloading the MP4. They
+stay URLs even when `video.data_uri` is inline base64. The key is omitted entirely
+when a job produced none, so read it defensively. See
+[Preview frames](Video-Generation.md#previews) for the full field reference.

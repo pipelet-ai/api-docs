@@ -282,6 +282,61 @@ Example with https:// pre-signed URL:
 }
 ```
 
+## 3.1) Preview frames {#previews}
+
+Video results also carry `previews`: a strip of JPEG frames sampled from the
+finished video, one per second by default. Use them for a thumbnail, a poster
+frame, or a scrub strip without downloading the whole MP4 first.
+
+```json
+{
+  "video": {
+    "data_uri": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/free/375867_0_WanVideo2_2_I2V_00781.mp4?X-Amz-..."
+  },
+  "preview_fps": 1,
+  "previews": [
+    {
+      "url": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/free/375867_0_preview_000.jpg?X-Amz-...",
+      "index": 0,
+      "timestamp": 0,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    },
+    {
+      "url": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/free/375867_0_preview_001.jpg?X-Amz-...",
+      "index": 1,
+      "timestamp": 1,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    }
+  ]
+}
+```
+
+| Field | Meaning |
+|-------|---------|
+| `previews` | Array of frames, ordered by `timestamp`. |
+| `previews[].url` | Pre-signed HTTPS URL for the JPEG. Fetch directly; no auth header needed. |
+| `previews[].index` | 0-based position in the strip. |
+| `previews[].timestamp` | Seconds into the video. The first entry is the frame at `0`. |
+| `previews[].width` / `.height` | Pixels of the JPEG. Frames are downscaled to at most 640px wide, so the aspect ratio matches the video but the size does not. |
+| `previews[].content_type` | Always `image/jpeg` today. |
+| `preview_fps` | Sampling rate. `1` means one frame per second. |
+
+Notes:
+
+- **`previews` is optional.** The key is omitted entirely — not `null`, not `[]` —
+  when a job produced no frames, so read it defensively (`.previews // []`). Older
+  workers that have not picked up the feature simply do not send it, and non-video
+  workflows never do.
+- **URLs are re-signed on every fetch**, so a link in a response you just received is
+  always live. Stored links expire; re-fetch the result instead of caching URLs, or
+  download the JPEGs if you need them long-term.
+- Frames are always URLs, even when `video.data_uri` is inline base64.
+- The same fields are delivered to [webhooks](webhook-quick-start.md#job-result).
+
 
 ## Request/Response Details
 
@@ -303,4 +358,4 @@ Example with https:// pre-signed URL:
 ## Notes
 
 - This document intentionally excludes the subpath endpoint `POST /queue/:modelId/:subpath`.
-- Result fetching attempts to inline the stored payload and return the uniform shape `{ "video": { "data_uri": "..." } }`.
+- Result fetching attempts to inline the stored payload and return the uniform shape `{ "video": { "data_uri": "..." } }`, plus [`previews`](#previews) when the job produced preview frames.

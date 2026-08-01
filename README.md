@@ -133,12 +133,24 @@ Typical response body:
 {
   "video": {
     "data_uri": "(base64_encoded mp4 file content like 4AAQkZJRgABAxxx)"
-  }
+  },
+  "preview_fps": 1,
+  "previews": [
+    {
+      "url": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/.../452675_0_preview_000.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 0,
+      "timestamp": 0,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    }
+  ]
 }
 ```
 
 -  JSON`video.data_uri` is a base64-encoded string of an MP4 file encoded with H.264.
 - Decode and save it locally to obtain the final `.mp4` file
+- `previews` is a strip of JPEG frames sampled from the finished video, one per second by default — use it for a thumbnail or scrub strip without downloading the MP4. Frames stay URLs even when `video.data_uri` is inline base64. The key is omitted entirely when a job produced none, so read it defensively. See [Preview frames](docs/Video-Generation.md#previews).
 
 Example to save locally (macOS/Linux):
 

@@ -65,9 +65,36 @@ Please note that the jobId will be a string.
   "video": {
     "data_uri": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/437852_0_WanVideo2_2_I2V_00150.mp4?X-Amz-Expires=7200&X-Amz-Date=20251227T203935Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251227%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=94e8e3d507137daa9e1dc4fac8319e7c58d3a5db635faac00f35dd0dba7ebb71",
     "data_url": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/437852_0_WanVideo2_2_I2V_00150.mp4?X-Amz-Expires=7200&X-Amz-Date=20251227T203935Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0c9db542c165ecde3eae49725be07d03%2F20251227%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=94e8e3d507137daa9e1dc4fac8319e7c58d3a5db635faac00f35dd0dba7ebb71"
-  }
+  },
+  "preview_fps": 1,
+  "previews": [
+    {
+      "url": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/437852_0_preview_000.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 0,
+      "timestamp": 0,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    },
+    {
+      "url": "https://prod-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/free/437852_0_preview_001.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 1,
+      "timestamp": 1,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    }
+  ]
 }
 ```
+
+Video jobs also carry [`previews`](Video-Generation.md#previews) — a strip of JPEG
+frames sampled from the finished video, one per second by default. The key is
+omitted entirely when a job produced none, so read it defensively.
+
+The frame URLs are signed at the moment the webhook fires and expire a few hours
+later. If your handler stores them, download the JPEGs instead — or re-fetch the
+result from the `/result` endpoint, which re-signs every URL on each read.
 
 ### Extra note on retries
 

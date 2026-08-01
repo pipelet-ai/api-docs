@@ -194,6 +194,54 @@ Typical response body:
 {
   "video": {
     "data_uri": "4AAQSkZJRgABAxxx(base64_encoded mp4 file content)"
-  }
+  },
+  "preview_fps": 1,
+  "previews": [
+    {
+      "url": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/premium/452675_0_preview_000.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 0,
+      "timestamp": 0,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    },
+    {
+      "url": "https://prod-batch-files.<account>.r2.cloudflarestorage.com/outputs/premium/452675_0_preview_001.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 1,
+      "timestamp": 1,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    }
+  ]
 }
 ```
+
+## 3.1) Preview frames {#ltx23-previews}
+
+Alongside the video, the result carries `previews`: a strip of JPEG frames sampled
+from the finished video, one per second by default. Use them for a thumbnail, a
+poster frame, or a scrub strip without downloading the whole MP4 first.
+
+- `previews` (array, ordered by `timestamp`) — each entry is one frame.
+  - `url` — a pre-signed HTTPS URL for the JPEG. Fetch it directly; no auth header needed.
+  - `index` — 0-based position in the strip.
+  - `timestamp` — seconds into the video. `previews[0]` is the first frame, at `0`.
+  - `width` / `height` — pixels of the JPEG. Frames are downscaled to 640px wide at
+    most, so the aspect ratio matches your video but the size does not.
+  - `content_type` — always `image/jpeg` today.
+- `preview_fps` (number) — the sampling rate, so you can label the strip without
+  dividing timestamps. `1` means one frame per second.
+
+**Treat `previews` as optional.** It is omitted entirely — not sent as `null` or `[]`
+— when the job produced no frames, so read it defensively:
+
+```bash
+curl -s 'https://batch.pipelet.net/queue/ltx23-i2v-t2v-pro/requests/12' \
+  -H 'Authorization: Bearer <api-key>' \
+  | jq -r '.previews // [] | .[0].url'
+```
+
+The `url` values are re-signed every time you fetch the result, so a link you just
+received is always live. Links you stored earlier will expire — re-fetch the result
+rather than caching the URLs. If you need the frames long-term, download the JPEGs.

@@ -54,7 +54,23 @@ Sample output format is like below:
 {
   "video": {
     "data_uri": "https://staging-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/wan22-fast-i2v/115_AnimateDiff_00125.mp4?X-Amz-Expires=1800&X-Amz-Date=20250904T213408Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=e233b3b06e4169616188cfee2b20c414%2F20250904%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=d1d3d9ea4befc7a88f95bcf5ec31c8e44395062117a7dc2d8ef2732584615e89"
-  }
+  },
+  "preview_fps": 1,
+  "previews": [
+    {
+      "url": "https://staging-batch-files.ae2b0858dbcfcff39cc58bac85b7c66d.r2.cloudflarestorage.com/outputs/wan22-fast-i2v/115_0_preview_000.jpg?X-Amz-Expires=14400&X-Amz-...",
+      "index": 0,
+      "timestamp": 0,
+      "width": 640,
+      "height": 366,
+      "content_type": "image/jpeg"
+    }
+  ]
 }
 ```
 We can parse the data_uri to get the file name too.
+
+`previews` is a strip of JPEG frames sampled from the finished video, one per second
+by default — useful for a thumbnail or scrub strip without downloading the MP4. The
+key is omitted entirely when a job produced none, so read it defensively. See
+[Preview frames](docs/Video-Generation.md#previews) for the full field reference.
