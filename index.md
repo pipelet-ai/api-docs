@@ -27,6 +27,7 @@ title: Home
       <a href="./docs/webhook-quick-start">Webhook Quickstart</a>
       <a href="./docs/music-video-quickstart">Music Video Quickstart</a>
       <a href="./docs/video-extension-quickstart">Video Extension Quickstart</a>
+      <a href="./docs/h3">MiniMax H3 Video Quickstart</a>
       <a href="./docs/ltx23-i2v-t2v-quickstart">LTX23 Image/Text To Video Quickstart</a>
       <a href="./docs/ltx-video-extension-quickstart">LTX23 Video Extension Quickstart</a>
       <a href="./docs/classifier-quickstart">Classifier Quickstart</a>
@@ -35,6 +36,7 @@ title: Home
   </aside>
   <main markdown="1" class="content">
   {% include_relative docs/Video-Generation.md %}
+  {% include_relative docs/h3.md %}
   {% include_relative docs/ltx23-i2v-t2v-quickstart.md %}
   {% include_relative docs/virtual-influencer.md %}
   {% include_relative docs/webhook-quick-start.md %}
